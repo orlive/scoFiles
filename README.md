@@ -1,0 +1,2 @@
+# scoFiles
+alte SCO-Disketten
