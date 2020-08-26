@@ -1,7 +1,7 @@
 CC=cc
-CFLAGS=-DNDEBUG
+CFLAGS=-DNDEBUG -Wimplicit-function-declaration
 
-LIBS =	-lcurses -lc_s -nointl -lc
+LIBS =	-lcurses -lc
 
 PROGS = \
 		tetris

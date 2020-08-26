@@ -8,10 +8,17 @@
 #include "tetris.h"
 #include "tetris_f.h"
 
+// Declarations...
+void creat_figur(char flg,t_figur *f);
+void draw_figur(char flg,WINDOW *w,t_figur *f,int y,int x);
+int rnd(int n);
+void uninit();
+
+
 void haupt(t_score *score);
 void highscore(t_score *score);
 
-long times();
+clock_t times();
 extern long lrand48();
 extern void srand48();
 
@@ -28,7 +35,7 @@ WINDOW	*winh,
 	*win3,
 	*win4;
 
-main(int argc,char **argv)
+int main(int argc,char **argv)
 {
 	extern int	optind;
 	extern char	*optarg;
@@ -90,7 +97,7 @@ main(int argc,char **argv)
 		box(win1,0,0);
 		box(win2,0,0);
 		box(win3,0,0);
-		mvwprintw(win4,0,0,"Nächster:");
+		mvwprintw(win4,0,0,"NÃ¤chster:");
 		refresh_all();
 
 		score.level	= score.start_level = level;
@@ -288,7 +295,7 @@ void haupt(t_score *score)
 	}
 }
 
-creat_figur(char flg,t_figur *f)
+void creat_figur(char flg,t_figur *f)
 {
 		if(flg)
 			f->nr = AF;
@@ -363,7 +370,7 @@ draw_scr()
 	}
 }
 
-draw_figur(char flg,WINDOW *w,t_figur *f,int y,int x)
+void draw_figur(char flg,WINDOW *w,t_figur *f,int y,int x)
 {
 	int i,u;
 
@@ -430,7 +437,7 @@ binde_figur(t_figur *f)
 				}
 }
 
-static int rnd(int n)
+int rnd(int n)
 {
 	return(((lrand48() & 0x7FFF) % n));
 }
@@ -474,7 +481,7 @@ init()
 	nodelay(winh,TRUE);
 }
 
-uninit()
+void uninit()
 {
 	/* setblock(0,TRUE); */
 	nodelay(winh,FALSE);

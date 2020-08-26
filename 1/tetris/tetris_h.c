@@ -5,6 +5,9 @@
 #include <time.h>
 #include "tetris.h"
 
+// Deklarations 
+void highscore_save(t_highscore *tab);
+
 w_clear(WINDOW *w)
 {
 	int	x,y;
@@ -119,7 +122,7 @@ int highscore_load(t_highscore *tab)
 	return 1;
 }
 
-highscore_save(t_highscore *tab)
+void highscore_save(t_highscore *tab)
 {
 	char	*ptr;
 	FILE	*datei;
