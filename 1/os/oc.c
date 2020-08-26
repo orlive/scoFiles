@@ -6,7 +6,7 @@
 #include <sys/times.h>
 #include <sys/types.h>
 #include <dirent.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 #include "os.h"
 
@@ -44,7 +44,7 @@ main(int argc,char **argv)
 
 	for(i=0;i<2;i++)
 	{
-		strcpy(d[i].akt_dir,(char*)getcwd((char*)0,510));
+		getcwd(d[i].akt_dir,510);
 		strcpy(d[i].filter,"");
 		d[i].anzeige=0;
 		d[i].ordnung=0;

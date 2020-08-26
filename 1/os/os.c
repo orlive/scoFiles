@@ -6,10 +6,13 @@
 #include <sys/times.h>
 #include <sys/types.h>
 #include <dirent.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 #include "os.h"
 #include "os_dir.h"
+
+#define D { FILE* out=fopen("log.log","at"); fprintf(out,"%s/%d\n",__FILE__,__LINE__); fflush(out); fclose(out); }
+extern char* xgetenv(char *name);
 
 WINDOW	*winh,
 	*win[2],
@@ -149,7 +152,7 @@ void os_get_old( void )
 	else
 		for( i=0 ; i<2 ; i++ )
 		{
-			strcpy(d[i].akt_dir,(char*)getcwd((char*)0,510));
+			getcwd(d[i].akt_dir,510);
 			strcpy(d[i].filter,"");
 			d[i].anzeige=0;
 			d[i].ordnung=0;

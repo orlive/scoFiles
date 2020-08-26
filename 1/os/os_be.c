@@ -3,6 +3,9 @@
 #include <sys/types.h>
 #include "os.h"
 
+#define D { FILE* out=fopen("log.log","at"); fprintf(out,"%s/%d\n",__FILE__,__LINE__); fflush(out); fclose(out); }
+extern char* xgetenv(char *name);
+
 extern	int	flg_int;
 extern	int	flg_quit;
 

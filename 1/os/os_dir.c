@@ -10,7 +10,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <dirent.h>
-#include <malloc.h>
 #include <ctype.h>
 #include <pwd.h>
 #include <grp.h>
@@ -36,6 +35,9 @@ int	sort_ordnung;
 #define	IDX		d[nr].idx
 #define	ANZ		d[nr].anz
 #define BALKEN		COLOR_CYAN
+
+#define D { FILE* out=fopen("log.log","at"); fprintf(out,"%s/%d\n",__FILE__,__LINE__); fflush(out); fclose(out); }
+extern void* xmalloc(size_t len,char *message);
 
 void sort_setup( int nr )
 {
@@ -107,7 +109,7 @@ void hole_dateien(t_dir *d,char *pfad)
 	char	rechte[11];
 
 	chdir(pfad);
-	strcpy( d->akt_dir , (char*)getcwd((char*)0,510) );
+	getcwd(d->akt_dir,510);
 
 	for( i=0 ; i<d->anz ; i++ )
 		xfree( d->e[i].name );
@@ -155,8 +157,8 @@ void hole_dateien(t_dir *d,char *pfad)
 			rechte[0]='c';
 		else if(S_ISFIFO(stat_buf.st_mode))
 			rechte[0]='f';
-		else if(S_ISNAM(stat_buf.st_mode))
-			rechte[0]='p';
+		//else if(S_ISNAM(stat_buf.st_mode))
+			//rechte[0]='p';
 		else if(S_ISLNK(stat_buf.st_mode))
 			rechte[0]='l';
 		else if(S_ISFIFO(stat_buf.st_mode))

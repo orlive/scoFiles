@@ -1,7 +1,6 @@
 #include <stdio.h>
 
-
-FILE	*log;
+FILE* logFD;
 int	err_cnt;
 
 int log_open()
@@ -11,7 +10,7 @@ int log_open()
 	if( (ptr = (char*)getenv("LOG"))==NULL)
 		return 0;
 	
-	if( (log = fopen(ptr,"a"))==NULL)
+	if( (logFD = fopen(ptr,"a"))==NULL)
 		return 0;
 
 	return 1;
@@ -19,14 +18,14 @@ int log_open()
 
 void log_close()
 {
-	fclose(log);
+	fclose(logFD);
 }
 
 void log_print(char* s1)
 {
 	if(log_open())
 	{
-		fprintf(log,"%s\n",s1);
+		fprintf(logFD,"%s\n",s1);
 		log_close();
 	}
 }

@@ -1,7 +1,7 @@
 CC=cc
 CFLAGS=-DNDEBUG
 
-LIBS =	-lcurses -lc_s -nointl -lc -lintl
+LIBS =	-lcurses -lc 
 
 PROGS = \
 		os	\
