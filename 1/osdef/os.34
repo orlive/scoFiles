@@ -1,0 +1,12 @@
+clear
+echo "Befehl (q=Quit)"
+echo
+read befehl
+case "$befehl" in
+	q)	echo Abbruch;;
+	*)	cd `cat $OS/os_dir.akt`;
+		sh $befehl;;
+esac
+echo
+echo "<RETURN>"
+read taste

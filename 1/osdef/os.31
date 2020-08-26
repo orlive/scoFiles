@@ -1,0 +1,8 @@
+clear
+echo "Kopieren <`cat $OS/os.akt`> nach Datei (q=Quit) ?"
+echo
+read datei
+case "$datei" in
+	q)	echo Abbruch;;
+	*)	cp `cat $OS/os.akt` $datei;;
+esac

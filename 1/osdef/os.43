@@ -1,0 +1,23 @@
+clear
+echo "Inhalt:"
+echo
+echo "         (1) 3.5  Zoll"
+echo "         (2) 5.25 Zoll"
+echo "         (3) Datei"
+echo "         (q) Quit"
+echo
+read drive
+case "$drive" in
+	q)	exit;;
+	1)	l=6;;
+	2)	l=2;;
+	3)	tar tf `cat $OS/os.akt`|pg;
+		exit;;
+esac
+
+if [ `cat $OS/os.mark|wc -l`  -eq 0 ]
+then
+	tar t${l} |pg
+else
+	tar t${l} |pg
+fi

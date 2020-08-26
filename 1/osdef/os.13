@@ -1,0 +1,14 @@
+clear
+echo "make"
+echo
+
+if [ `cat $OS/os.mark|wc -l`  -eq 0 ]	# sind dateien markiert ?
+then
+	make `cat $OS/os.akt`		# markierte dateien editieren
+else
+	make `cat $OS/os.mark`		# nur aktuelle datei editieren
+fi
+
+echo
+echo "<RETURN>"
+read taste

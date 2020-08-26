@@ -1,0 +1,6 @@
+setcolor white blue
+clear
+echo "Shell:"
+echo "      exit + <RETURN>, um zu OS zurückzukehren"
+echo
+sh

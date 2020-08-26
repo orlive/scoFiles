@@ -1,0 +1,9 @@
+if [ `cat $OS/os.mark|wc -l`  -eq 0 ]
+then
+	mv `cat $OS/os.akt` `cat $OS/os_dir.other`
+else
+	for datei in `cat $OS/os.mark`
+	do
+		mv $datei `cat $OS/os_dir.other`
+	done
+fi

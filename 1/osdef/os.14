@@ -1,0 +1,9 @@
+cd `cat $OS/os_dir.akt`
+if [ `cat $OS/os.mark|wc -l`  -eq 0 ]
+then
+	`cat $OS/os.akt`
+else
+	`cat $OS/os.mark`
+fi
+echo "<RETURN>"
+read taste

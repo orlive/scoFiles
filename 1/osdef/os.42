@@ -1,0 +1,32 @@
+clear
+echo "Sichern (Append):"
+echo
+echo "         (1) 3.5  Zoll"
+echo "         (2) 5.25 Zoll"
+echo "         (3) Datei"
+echo "         (q) Quit"
+echo
+read drive
+case "$drive" in
+	q)	exit;;
+	1)	l=6;;
+	2)	l=2;;
+	3)	echo;echo "Dateiname (q=Quit)";read datei;
+		if [ $datei = q ]
+		then
+			exit
+		fi
+		l="f $datei"
+		;;
+esac
+
+if [ `cat $OS/os.mark|wc -l`  -eq 0 ]
+then
+	tar rv${l} `cat $OS/os.akt`
+else
+	tar rv${l} `cat $OS/os.mark`
+fi
+echo
+echo "<RETURN>"
+read taste
+

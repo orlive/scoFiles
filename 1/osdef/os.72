@@ -1,0 +1,7 @@
+clear
+echo "Datei (q=Quit) ?"
+read datei
+case "$datei" in
+	q) echo Abbruch;;
+	*) /usr/oli/wav/record_snd /usr/oli/wav/$datei;;
+esac

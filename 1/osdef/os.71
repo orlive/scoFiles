@@ -1,0 +1,11 @@
+clear
+if [ `cat $OS/os.mark|wc -l`  -eq 0 ]
+then
+	/usr/oli/wav/play_snd `cat $OS/os.akt` &
+else
+	for datei in `cat $OS/os.mark`
+	do
+		echo $datei
+		/usr/oli/wav/play_snd $datei
+	done
+fi

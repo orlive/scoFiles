@@ -1,0 +1,11 @@
+clear
+file=`cat $OS/os.akt`
+echo "Aendere Rechte für <$file> (q=Quit) ?"
+echo
+echo Akuelle Rechte : `l $file`
+echo
+read rechte
+case "$rechte" in
+	q)	echo Abbruch;;
+	*)	chmod $rechte $file
+esac

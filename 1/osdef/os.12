@@ -1,0 +1,8 @@
+clear
+echo "make"
+echo
+cd `cat $OS/os_dir.akt`
+make
+echo
+echo "<RETURN>"
+read taste

@@ -1,0 +1,11 @@
+if [ `cat $OS/os.mark|wc -l`  -eq 0 ]
+then
+	cp `cat $OS/os.akt` `cat $OS/os_dir.other`
+else
+	clear
+	for datei in `cat $OS/os.mark`
+	do
+		echo -n "."
+		cp $datei `cat $OS/os_dir.other`
+	done
+fi

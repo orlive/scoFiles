@@ -1,0 +1,7 @@
+clear
+if [ `cat $OS/os.mark|wc -l`  -eq 0 ]
+then
+	rm -i -- `cat $OS/os.akt`
+else
+	rm  -i -- `cat $OS/os.mark`
+fi
