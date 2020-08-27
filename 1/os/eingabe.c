@@ -5,11 +5,11 @@
 extern	int	flg_int;
 extern	int	flg_quit;
 
-int input(w,y,x,l,str)
-	WINDOW	*w;
-	int	y,x,l;
-	char	*str;
-{
+extern int wget_taste(WINDOW *w);
+extern void xdelete(char *str,int pos,int anz);
+extern void xinsert(char *str1,int pos,char *str2);
+
+int input(WINDOW *w,int y,int x,int l,char *str) {
 	int	t;
 	int	tue = TRUE;
 	int	pos = 0;
@@ -72,7 +72,7 @@ int input(w,y,x,l,str)
 		}
 		if( (t>='a' && t<='z') || (t>='A' && t<='Z')
 			|| (t>='0' && t<='9') 
-			|| strchr("[^_?\/\\]-><:;.,* ",t) )
+			|| strchr("[^_?/\\]-><:;.,* ",t) )
 		{
 			if( flg_einf ) 
 			{

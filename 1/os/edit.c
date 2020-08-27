@@ -2,33 +2,40 @@
 #include <curses.h>
 #include <string.h>
 
+void edit( char *dateiname );
+void draw_txt( WINDOW *w );
+void load_txt( WINDOW *w,char *dateiname );
+
+extern void highcolor(WINDOW *w,int vc,int hc);
+extern void w_clear(WINDOW *w);
+extern void fehler(char *message);
+
 char	txt[10][80];
 int	txt_cnt;
 
-edit( char *dateiname )
-{
-	FILE	*dat;
-	WINDOW	*w;
-	int	sx = 20;
-	int	sy = 10;
-	int	t;
+void edit( char *dateiname ) {
+				FILE	*dat;
+				WINDOW	*w;
+				int	sx = 20;
+				int	sy = 10;
+				int	t;
 
-	w = newwin(sy+2,sx+2,2,2);
-	nodelay(w,TRUE);
-	keypad(w,TRUE);
-	highcolor(w,COLOR_WHITE,COLOR_BLUE);
-	w_clear(w);
-	box(w,0,0);
+				w = newwin(sy+2,sx+2,2,2);
+				nodelay(w,TRUE);
+				keypad(w,TRUE);
+				highcolor(w,COLOR_WHITE,COLOR_BLUE);
+				w_clear(w);
+				box(w,0,0);
 
-	load_txt(w,dateiname);
-	draw_txt(w);
+				load_txt(w,dateiname);
+				draw_txt(w);
 
 	while((t=wgetch(w))==ERR);
 
 	delwin(w);
 }
 
-load_txt( WINDOW *w,char *dateiname )
+void load_txt( WINDOW *w,char *dateiname )
 {
 	FILE	*dat;
 	
@@ -41,7 +48,7 @@ load_txt( WINDOW *w,char *dateiname )
 		txt_cnt++;
 }
 
-draw_txt( WINDOW *w )
+void draw_txt( WINDOW *w )
 {
 	int	i;
 

@@ -2,14 +2,31 @@
 #include <curses.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int	flg_int;
 int	flg_quit;
 
+int wget_taste(WINDOW *w);
+int finde(char *s1,char *s2);
+void* xmalloc(size_t len,char *message);
+void xfree(void *ptr);
+void fehler(char *message);
+int  frage(char *frage);
+void w_clear(WINDOW *w);
+void xinit_color();
+void highcolor(WINDOW *w,int vc,int hc);
+void blinkcolor(WINDOW *w,int vc,int hc);
+char* xgetenv(char *name);
+void xrun(char *str);
+void xdelete(char *str,int pos,int anz);
+void xinsert(char *str1,int pos,char *str2);
 void sig_abbr(int sig);
 void sig_chk(int sig);
-void sig_init(void);
-void sig_ignore(void);
+void sig_init();
+void sig_ignore();
+
+extern void os_uninit();
 
 int wget_taste(WINDOW *w)
 {
@@ -20,8 +37,7 @@ int wget_taste(WINDOW *w)
 	return t;
 }
 
-finde(char *s1,char *s2)
-{
+int finde(char *s1,char *s2) {
 	int	len;
 	char	*c1;
 
@@ -47,8 +63,7 @@ void* xmalloc(size_t len,char *message)
 	return ptr;
 }
 
-void xfree(void *ptr)
-{
+void xfree(void *ptr) {
 	if(ptr)
 		free(ptr);
 }
@@ -69,7 +84,7 @@ void fehler(char *message)
 	os_uninit();
 }
 
-frage(char *frage)
+int frage(char *frage)
 {
 	WINDOW	*w;
 	int	t;
@@ -106,7 +121,7 @@ frage(char *frage)
 		return 0;
 }
 
-w_clear(WINDOW *w)
+void w_clear(WINDOW *w)
 {
 	int	x,y;
 	int	i;
@@ -121,7 +136,7 @@ w_clear(WINDOW *w)
 		mvwprintw(w,i,1,"%s",tmp);
 }
 
-xinit_color()
+void xinit_color()
 {
 	int	i,u;
 
@@ -130,17 +145,16 @@ xinit_color()
 			init_pair((short)(i*8+u+1),(short)u,(short)i);
 }
 
-highcolor(WINDOW *w,int vc,int hc)
+void highcolor(WINDOW *w,int vc,int hc)
 {
-	if(COLOR_PAIRS>-1)
-	{
+	if(COLOR_PAIRS>-1) {
 		wattroff(w,A_BLINK);
 		/*wattron(w,A_BOLD);*/
 		wattron(w,COLOR_PAIR(hc*8+vc+1));
 	}
 }
 
-blinkcolor(WINDOW *w,int vc,int hc)
+void blinkcolor(WINDOW *w,int vc,int hc)
 {
 	if(COLOR_PAIRS>-1)
 	{
@@ -163,7 +177,7 @@ char* xgetenv(char *name)
 	return c;
 }
 
-xrun(char *str)
+void xrun(char *str)
 {
 	int	status;
 
@@ -181,20 +195,20 @@ xrun(char *str)
  ****	STRINGFUNCTIONS
  ****/
 
-xdelete(char *str,int pos,int anz)
+void xdelete(char *str,int pos,int anz)
 {
 	int	len = strlen(str);
 
 	if( pos<0 || pos>len )
-		return 0;
+		return;
 
 	if( anz<1 || anz>(pos+len) )
-		return 0;
+		return;
 
 	memmove(str+pos,str+pos+anz,len-pos);
 }
 
-xinsert(char *str1,int pos,char *str2)
+void xinsert(char *str1,int pos,char *str2)
 {
 	int	len1 = strlen(str1);
 	int	len2 = strlen(str2);
@@ -202,10 +216,10 @@ xinsert(char *str1,int pos,char *str2)
 	char	*tmp;
 
 	if( pos<0 || pos>len1 )
-		return 0;
+		return;
 
 	if( len2<=0 )
-		return 0;
+		return;
 
 	tmp = (char*)xmalloc(len1+1,"xinsert");
 
@@ -218,12 +232,12 @@ xinsert(char *str1,int pos,char *str2)
 
 /* signal funktionen */
 
-void sig_abbr(sig)
+void sig_abbr(int sig)
 {
 	fehler("Programm Abbruch");
 }
 
-void sig_chk(sig)
+void sig_chk(int sig)
 {
 	switch(sig) 
 	{

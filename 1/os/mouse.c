@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <curses.h>
 
 #define		L_TASTE	1
@@ -12,7 +13,7 @@
 
 #define		REDRAW	for(t=0;t<23;t++)mvwaddstr(w,t+1,1,zl[t])
 
-main()
+int main()
 {
 	WINDOW	*w;
 	int	t;

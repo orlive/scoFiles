@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #define ANZ_ppos 200
 
@@ -18,9 +19,17 @@ struct {
 	char    gueltig[256];   /* gueltige buchstaben                    */
 	} ppos[ANZ_ppos];
 
+
+int match(char *str1,char *str2);
+int get_klammer(char *str2,int p);
+int ma_vergleich();
+int vergleich(int pos,int start,int ende);
+void kill_space(char *str);
+int stoprun(int nr,char *x);
+
 #ifdef match_obj
 
-main(int anz_p,char **para)
+int main(int anz_p,char **para)
 {
 	if(anz_p==2)
 	{
@@ -40,8 +49,7 @@ main(int anz_p,char **para)
 
 #endif
 
-match(char *str1,char *str2)
-{
+int match(char *str1,char *str2) {
 	int     i;
 
 	kill_space(str1);
@@ -111,7 +119,7 @@ match(char *str1,char *str2)
 	return( ma_vergleich() );
 }
 
-get_klammer(char *str2,int p)
+int get_klammer(char *str2,int p)
 {
 	int     i,u;
 	int     l;
@@ -188,8 +196,7 @@ get_klammer(char *str2,int p)
 ****************************************************************************/
 
 
-ma_vergleich()
-{
+int ma_vergleich() {
 	int	i;
 	int	start;
 	int     ende;
@@ -324,7 +331,7 @@ ma_vergleich()
 **                                                                         **
 ****************************************************************************/
 
-vergleich(int pos,int start,int ende)
+int vergleich(int pos,int start,int ende)
 {
 	int     i,u;
 	int     anz;
@@ -391,7 +398,7 @@ vergleich(int pos,int start,int ende)
 	return(-1);
 }
 
-kill_space(char *str)
+void kill_space(char *str)
 {
 	int     i;
 	char    *z;
@@ -406,7 +413,7 @@ kill_space(char *str)
 			break;
 }
 
-stoprun(int nr,char *x)
+int stoprun(int nr,char *x)
 {
 	/*printf(x);*/
 	return nr;
