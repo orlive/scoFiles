@@ -13,19 +13,17 @@ make:
 
 #==============================================================================#
 
-OS_OBJ = \
-		os.o		\
-		os_dir.o	\
-		os_be.o
-
-OS_OBJA = \
+OS_OBJ =      \
+		os.o      \
+		os_dir.o  \
+		os_be.o   \
 		eingabe.o	\
-		etc.o		\
-		log.o		\
-		match.o		\
+		etc.o     \
+		log.o     \
+		match.o   \
 		edit.o
 
-os: $(OS_OBJ) $(OS_OBJA)
+os: $(OS_OBJ)
 	$(CC) $(CFLAGS) -o os $(OS_OBJ) $(OS_OBJA) $(LIBS)
 
 #==============================================================================#

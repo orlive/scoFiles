@@ -1,13 +1,6 @@
-#include <stdio.h>
-#include <curses.h>
-#include <string.h>
-
-extern	int	flg_int;
-extern	int	flg_quit;
-
-extern int wget_taste(WINDOW *w);
-extern void xdelete(char *str,int pos,int anz);
-extern void xinsert(char *str1,int pos,char *str2);
+#include "eingabe.h"
+#include "etc.h"
+#include "os.h"
 
 int input(WINDOW *w,int y,int x,int l,char *str) {
 	int	t;

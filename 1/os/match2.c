@@ -1,8 +1,7 @@
+#include <match2.h>
+
 #define ANZ_ppos 200
 #define debugmatch 1
-
-#include <stdio.h>
-#include <string.h>
 
 struct {
 	int     f_gueltig;     /* wenn gesetzt, kann hier jeder beliebige

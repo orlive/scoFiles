@@ -1,34 +1,14 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <memory.h>
-#include <curses.h>
-#include <signal.h>
-#include <ctype.h>
-#include <assert.h>
-#include <sys/times.h>
-#include <time.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <dirent.h>
-#include <ctype.h>
-#include <pwd.h>
-#include <grp.h>
-#include <string.h>
-#include <unistd.h>
-
-#include "os.h"
 #include "os_dir.h"
+#include "os.h"
+#include "os_be.h"
 #include "log.h"
+#include "etc.h"
+#include "edit.h"
+#include "match.h"
+#include "eingabe.h"
 
-extern  int  flg_int;
-extern  int  flg_quit;
-
-extern  WINDOW  *win[2],*func;
-
-extern  t_dir  d[2];
-char    tmp[512];
-char    hlinie[SPALTEN];
-
+char tmp[512];
+char hlinie[SPALTEN];
 int  sort_ordnung;
 
 #define  AKT    d[nr].akt
@@ -37,18 +17,6 @@ int  sort_ordnung;
 #define BALKEN    COLOR_CYAN
 
 #define D { FILE* out=fopen("log.log","at"); fprintf(out,"%s/%d\n",__FILE__,__LINE__); fflush(out); fclose(out); }
-extern void* xmalloc(size_t len,char *message);
-extern int wget_taste(WINDOW *w);
-extern void highcolor(WINDOW *w,int vc,int hc);
-extern void blinkcolor(WINDOW *w,int vc,int hc);
-extern void w_clear(WINDOW *w);
-extern int input(WINDOW *w,int y,int x,int l,char *str);
-extern void xfree(void *ptr);
-extern int match(char *str1,char *str2);
-extern void edit( char *dateiname );
-extern void be_edit();
-extern void xrun(char *str);
-extern void be_wahl(int nr,WINDOW *w,int x);
 
 void sort_setup( int nr );
 int sort_dateien( t_ele *e1 , t_ele *e2 );
@@ -153,9 +121,9 @@ void hole_dateien(t_dir *d,char *pfad) {
     }
 
     if ( strlen(d->filter)>0 )  /* Filter gesetzt ? */
-      d->zeilen = ZEILEN-1;
+      d->zeilen = getmaxy(winh)-6-1;
     else
-      d->zeilen = ZEILEN;
+      d->zeilen = getmaxy(winh)-6;
     d->e[i].mark = ' ';
     if (d->e[i].dir!='d')
       d->e[i].size = stat_buf.st_size;
@@ -492,7 +460,7 @@ void move_dateien(int nr) {
       drucke_dateien(nr);
 
     highcolor(win[nr],COLOR_BLUE,COLOR_BLACK);
-    wmove(win[nr],ZEILEN+1,1);
+    wmove(win[nr],getmaxy(win[nr])-2+1,1);
     wprintw(win[nr],"[");
     highcolor(win[nr],COLOR_WHITE,COLOR_BLACK);
     wprintw(win[nr],"%3d von %3d, (*): %3d (%10ld)",
@@ -533,17 +501,17 @@ void drucke_dateien(int nr) {
   box(win[nr],0,0);
 
   if (d[nr].idx>0)
-    mvwaddch(win[nr],1,SPALTEN-1,ACS_UARROW);
+    mvwaddch(win[nr],1,getmaxx(win[nr])-1,ACS_UARROW);
   if (d[nr].idx+d[nr].zeilen<d[nr].anz)
-    mvwaddch(win[nr],ZEILEN,SPALTEN-1,ACS_DARROW);
+    mvwaddch(win[nr],getmaxy(win[nr])-2,getmaxx(win[nr])-1,ACS_DARROW);
 
   u=strlen(d[nr].filter);
   if (u>0) {
     u=SPALTEN-u-4;
-    wmove(win[nr],ZEILEN,0);
+    wmove(win[nr],getmaxy(win[nr])-6,0);
     waddch(win[nr],ACS_LTEE);
     wprintw(win[nr],"[%s]",d[nr].filter);
-    mvwprintw(win[nr],ZEILEN,1,"[%s]",d[nr].filter);
+    mvwprintw(win[nr],getmaxy(win[nr])-6,1,"[%s]",d[nr].filter);
     for (i=0;i<u;i++)
       waddch(win[nr],ACS_HLINE);
     waddch(win[nr],ACS_RTEE);
@@ -553,7 +521,7 @@ void drucke_dateien(int nr) {
   highcolor(win[nr],COLOR_WHITE,COLOR_BLACK);
   mvwprintw(win[nr],0,2,"%s",d[nr].akt_dir);
   if (strlen(d[nr].filter)>0)
-    mvwprintw(win[nr],ZEILEN,2,d[nr].filter);
+    mvwprintw(win[nr],getmaxy(win[nr])-6,2,d[nr].filter);
 }
 
 void pos(int flg,int nr,int y,int x,int i) {

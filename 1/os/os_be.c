@@ -1,33 +1,8 @@
-#include <stdlib.h>
-#include <string.h>
-#include <curses.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include "os.h"
+#include "os_be.h"
+#include "etc.h"
+#include "eingabe.h"
 
 #define D { FILE* out=fopen("log.log","at"); fprintf(out,"%s/%d\n",__FILE__,__LINE__); fflush(out); fclose(out); }
-
-void hole_button();
-void speicher_button();
-void drucke_button_all(WINDOW *w);
-void drucke_button(int flg,WINDOW *w,int x);
-void be_wahl(int nr,WINDOW *w,int x);
-void be_schreibe_dateien(int nr);
-void be_befehl(WINDOW *w,int t1,int t2);
-void be_edit();
-void be_edit_farben(int *vc,int *hc);
-
-extern char* xgetenv(char *name);
-extern void blinkcolor(WINDOW *w,int vc,int hc);
-extern int input(WINDOW *w,int y,int x,int l,char *str);
-extern void fehler(char *message);
-extern void highcolor(WINDOW *w,int vc,int hc);
-extern int wget_taste(WINDOW *w);
-extern void xrun(char *str);
-extern void w_clear(WINDOW *w);
-
-extern  int  flg_int;
-extern  int  flg_quit;
 
 char  c_n[8][8] = {
       "Schwarz",
@@ -39,8 +14,10 @@ char  c_n[8][8] = {
       "Türkis",
       "Weiß" };
 
+extern  int    flg_int;
+extern  int    flg_quit;
 extern  t_dir  d[2];
-extern   WINDOW   *func;
+extern  WINDOW *func;
 
 t_button  button[BEFEHLE];
 

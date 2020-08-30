@@ -1,11 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "log.h"
 
 FILE* logFD;
 int	err_cnt;
 
-int log_open()
-{
+int log_open() {
 	char	*ptr;
 
 	if( (ptr = (char*)getenv("LOG"))==NULL)
@@ -17,15 +15,12 @@ int log_open()
 	return 1;
 }
 
-void log_close()
-{
+void log_close() {
 	fclose(logFD);
 }
 
-void log_print(char* s1)
-{
-	if(log_open())
-	{
+void log_print(char* s1) {
+	if ( log_open() ) {
 		fprintf(logFD,"%s\n",s1);
 		log_close();
 	}
@@ -33,8 +28,7 @@ void log_print(char* s1)
 
 /*----debugging functions----*/
 
-void debug_print()
-{
+void debug_print() {
 	char	t[20];
 
 	sprintf(t,"debug: %d",++err_cnt);
@@ -42,7 +36,6 @@ void debug_print()
 	log_print(t);
 }
 
-void debug_clear()
-{
+void debug_clear() {
 	err_cnt = 0;
 }

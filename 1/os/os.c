@@ -1,44 +1,14 @@
-#include <unistd.h>
-#include <stdio.h>
-#include <curses.h>
-#include <signal.h>
-#include <ctype.h>
-#include <assert.h>
-#include <sys/times.h>
-#include <sys/types.h>
-#include <dirent.h>
-#include <stdlib.h>
-#include <string.h>
-
+#define NOEXTERN 
 #include "os.h"
 #include "os_dir.h"
+#include "os_be.h"
+#include "etc.h"
 
 #define D { FILE* out=fopen("log.log","at"); fprintf(out,"%s/%d\n",__FILE__,__LINE__); fflush(out); fclose(out); }
-extern char* xgetenv(char *name);
-extern void hole_button();
-extern void drucke_button_all(WINDOW *w);
-extern int wget_taste(WINDOW *w);
-extern void sig_ignore();
-extern void xinit_color();
-extern int frage(char *frage);
-
-void os_usage();
-void os_init_dir();
-void os_init_dir2( int nr );
-void os_init();
-void os_set_old();
-void os_wininit();
-void os_uninit();
-void os_refresh_all();
-void os_int_stop();
-
-WINDOW  *winh,
-  *win[2],
-  *func;
+#define D2(a,b) { FILE* out=fopen("log.log","at"); fprintf(out,"%s/%d  %s:%d\n",__FILE__,__LINE__,a,b); fflush(out); fclose(out); }
 
 t_dir  d[2];
-
-char  flg_get_old;
+char   flg_get_old;
 
 int main( int argc , char *argv[] ) {
   int nr = 0;
@@ -106,9 +76,10 @@ void os_init() {
   sig_ignore();
 
   winh  = initscr();
-  win[0]  = newwin(ZEILEN+2,40,0,0);
-  win[1]  = newwin(ZEILEN+2,40,0,40);
-  func  = newwin(4,80,20,0);
+
+  win[0]  = newwin(getmaxy(winh)-4,getmaxx(winh)/2,0,0);
+  win[1]  = newwin(getmaxy(winh)-4,getmaxx(winh)/2,0,getmaxx(winh)/2);
+  func  = newwin(4,getmaxx(winh),getmaxy(winh)-4,0);
 
   start_color();
   xinit_color();  /* etc.c */
