@@ -1,0 +1,25 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "build",
+			"command": "make ; # && ./run.sh",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+ 			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"type": "shell",
+			"label": "run",
+			"command": "./${workspaceFolderBasename}",
+			"dependsOn": [
+				"build"
+			]
+		}
+	]
+}

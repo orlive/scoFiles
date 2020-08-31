@@ -2,23 +2,43 @@ extern "C" {
 
 #include "log.h"
 
-FILE* logFD;
-int	err_cnt;
+static FILE* logFD;
+int	   err_cnt;
+
+#define FILE_NAME "log.log"
 
 int log_open() {
+	static char *logFileName;
 	char	*ptr;
 
-	if( (ptr = (char*)getenv("LOG"))==NULL)
-		return 0;
+	if ( !logFileName && getenv("OS") ) {
+		logFileName = (char*) malloc( strlen(getenv("OS")) + strlen(FILE_NAME) + 2 );
+		sprintf(logFileName,"%s/%s",getenv("OS"),FILE_NAME );
+	}
 	
-	if( (logFD = fopen(ptr,"a"))==NULL)
-		return 0;
+	if ( logFileName ) {
+		logFD = fopen(logFileName,"at");
+	}
 
-	return 1;
+	return logFD ? 1 : 0;
 }
 
 void log_close() {
 	fclose(logFD);
+}
+
+void logPrintf(const char *callerFile,int callerLine,const char *msg, ...) {
+	if ( log_open() ) {
+		va_list params;
+		
+		va_start( params, msg );
+		fprintf( logFD ,"%s/%d: ",callerFile,callerLine);
+		vfprintf( logFD , msg , params );
+		fprintf( logFD,"\n" );
+		va_end( params );
+
+		log_close();
+	}
 }
 
 void log_print(char* s1) {

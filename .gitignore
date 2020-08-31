@@ -1,0 +1,9 @@
+1/os/*.o
+.DS_Store
+log.log
+.gitignore
+1/osdef/*
+1/tetris/*.o
+1/tetris/tetris
+1/os/os
+1/os/os.dirs

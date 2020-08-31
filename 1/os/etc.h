@@ -9,7 +9,7 @@
 
 int wget_taste( WINDOW *w );
 int finde(char *s1,char *s2);
-void* xmalloc(size_t len,char *message);
+char* xmalloc(size_t len,char *message);
 void xfree(void *ptr);
 void fehler(char *message);
 int frage(char *frage);

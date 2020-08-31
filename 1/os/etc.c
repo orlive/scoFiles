@@ -24,7 +24,7 @@ int finde(char *s1,char *s2) {
 	return -1;
 }
 
-void* xmalloc(size_t len,char *message)
+char* xmalloc(size_t len,char *message)
 {
 	char	*ptr;
 
@@ -143,8 +143,7 @@ char* xgetenv(char *name)
 	char	*c;
 	char	tmp[100];
 
-	if(!(c = getenv(name)))
-	{
+	if(!(c = getenv(name)))	{
 		sprintf(tmp,"Variable %s nicht definiert !",name);
 		fehler(tmp);
 	}
@@ -195,7 +194,7 @@ void xinsert(char *str1,int pos,char *str2)
 	if( len2<=0 )
 		return;
 
-	tmp = (char*)xmalloc(len1+1,"xinsert");
+	tmp = xmalloc(len1+1,"xinsert");
 
 	strcpy(tmp,str1+pos);
 

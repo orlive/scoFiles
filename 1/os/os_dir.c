@@ -18,21 +18,6 @@ int  sort_ordnung;
 #define  ANZ    d[nr].anz
 #define BALKEN    COLOR_CYAN
 
-#define D { FILE* out=fopen("/tmp/log.log","at"); fprintf(out,"%s/%d\n",__FILE__,__LINE__); fflush(out); fclose(out); }
-
-void sort_setup( int nr );
-int sort_dateien( t_ele *e1 , t_ele *e2 );
-void hole_dateien(t_dir *d,char *pfad);
-void hole_dateien2( t_dir *d );
-int os_finde_name( t_dir *d , char *name );
-void drucke_dateien(int nr);
-void pos(int flg,int nr,int y,int x,int i);
-void pos2(int nr);
-void hole_filter(int nr);
-void hole_sort(int nr);
-int hole_directory(int nr,char *tmp);
-void os_hilfe();
-
 void sort_setup( int nr ) {
   sort_ordnung = nr;
 }
@@ -131,8 +116,7 @@ void hole_dateien(t_dir *d,char *pfad) {
       d->e[i].size = stat_buf.st_size;
     else
       d->e[i].size = 0;
-    d->e[i].name = (char*)xmalloc(strlen(dp->d_name)+1,
-            "Verzeichnis - Eintrag");
+    d->e[i].name = xmalloc(strlen(dp->d_name)+1,"Verzeichnis - Eintrag");
     strcpy(d->e[i].name,dp->d_name);
 
     strcpy(rechte,"----------");
@@ -461,20 +445,7 @@ void move_dateien(int nr) {
     if (f_neu)
       drucke_dateien(nr);
 
-    highcolor(win[nr],COLOR_BLUE,COLOR_BLACK);
-    wmove(win[nr],getmaxy(win[nr])-2+1,1);
-    wprintw(win[nr],"[");
-    highcolor(win[nr],COLOR_WHITE,COLOR_BLACK);
-    wprintw(win[nr],"%3d von %3d, (*): %3d (%10ld)",
-      d[nr].idx+d[nr].akt+1,
-      d[nr].anz,
-      d[nr].manz,
-      d[nr].mbyte);
-    highcolor(win[nr],COLOR_BLUE,COLOR_BLACK);
-    wprintw(win[nr],"]");
-
-    pos(1,nr,1+d[nr].akt,1,d[nr].idx+d[nr].akt);
-
+    show_status(nr);
     wrefresh(win[nr]);
 
     flg_int = 0;
@@ -484,6 +455,22 @@ void move_dateien(int nr) {
     if (0)
       mvwprintw(func,1,1,"%d",t);wrefresh(func);
   }
+}
+
+void show_status(int nr) {
+  highcolor(win[nr],COLOR_BLUE,COLOR_BLACK);
+  wmove(win[nr],getmaxy(win[nr])-2+1,1);
+  wprintw(win[nr],"[");
+  highcolor(win[nr],COLOR_WHITE,COLOR_BLACK);
+  wprintw(win[nr],"%3d von %3d, (*): %3d (%10ld)",
+    d[nr].idx+d[nr].akt+1,
+    d[nr].anz,
+    d[nr].manz,
+    d[nr].mbyte);
+  highcolor(win[nr],COLOR_BLUE,COLOR_BLACK);
+  wprintw(win[nr],"]");
+
+  pos(1,nr,1+d[nr].akt,1,d[nr].idx+d[nr].akt);
 }
 
 void drucke_dateien(int nr) {

@@ -6,9 +6,7 @@ extern "C" {
 #include "os_dir.h"
 #include "os_be.h"
 #include "etc.h"
-
-#define D { FILE* out=fopen("/tmp/log.log","at"); fprintf(out,"%s/%d\n",__FILE__,__LINE__); fflush(out); fclose(out); }
-#define D2(a,b) { FILE* out=fopen("/tmp/log.log","at"); fprintf(out,"%s/%d  %s:%d\n",__FILE__,__LINE__,a,b); fflush(out); fclose(out); }
+#include "log.h"
 
 char   flg_get_old;
 
@@ -100,7 +98,7 @@ void os_get_old() {
   int   l;
 
   /* hole alte verzeichnisse */
-  strcpy(eingabe,(char*)xgetenv("OS"));
+  strcpy(eingabe,xgetenv("OS"));
   strcat(eingabe,"/os.dirs");
 
   if ( flg_get_old )
@@ -135,7 +133,7 @@ void os_set_old( void ) {
   char  tmp[21];
   char  eingabe[100] = "";
 
-  strcpy(eingabe,(char*)xgetenv("OS"));
+  strcpy(eingabe,xgetenv("OS"));
   strcat(eingabe,"/os.dirs");
 
   datei = fopen(eingabe,"w");
@@ -191,7 +189,7 @@ void os_refresh_all() {
 }
 
 void os_int_stop() {
-  if (frage("Wirklich beenden ? (j/n)"))
+  if (frage("Wirklich ? (j/n)"))
     os_uninit();
   os_refresh_all();
 }

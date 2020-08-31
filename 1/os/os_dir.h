@@ -25,6 +25,7 @@ void sort_setup( int nr );
 extern int sort_dateien( t_ele *e1 , t_ele *e2 );
 void hole_dateien( t_dir *d,char *pfad );
 void hole_dateien2( t_dir *d );
+void show_status( int nr );
 void move_dateien( int nr );
 void drucke_dateien( int nr );
 void pos( int flg , int nr , int y , int x , int i );

@@ -3,18 +3,17 @@ extern "C" {
 #include "os_be.h"
 #include "etc.h"
 #include "eingabe.h"
-
-#define D { FILE* out=fopen("/tmp/log.log","at"); fprintf(out,"%s/%d\n",__FILE__,__LINE__); fflush(out); fclose(out); }
+#include "log.h"
 
 char  c_n[8][8] = {
       "Schwarz",
       "Rot",
-      "Gr¸n",
+      "Gr√ºn",
       "Gelb",
       "Blau",
       "Orange",
-      "T¸rkis",
-      "Weiﬂ" };
+      "T√ºrkis",
+      "Wei√ü" };
 
 t_button  button[BEFEHLE];
 
@@ -25,7 +24,7 @@ void hole_button() {
   int   l;
   char  eingabe[100] = "";
   
-  strcpy(eingabe,(char*)xgetenv("OS"));
+  strcpy(eingabe,xgetenv("OS"));
   strcat(eingabe,"/os.init");
 
   if(!(datei = fopen(eingabe,"r")) )
@@ -51,7 +50,7 @@ void speicher_button() {
   int  i = 0;
   char  eingabe[100] = "";
   
-  strcpy(eingabe,(char*)xgetenv("OS"));
+  strcpy(eingabe,xgetenv("OS"));
   strcat(eingabe,"/os.init");
 
   if(!(datei = fopen(eingabe,"w")) )
@@ -111,7 +110,7 @@ void be_wahl(int nr,WINDOW *w,int x) {
 
   drucke_button(1,w,x);    /* Spalte blinkend darstellen */
   highcolor(w,7,0);
-  mvwprintw(w,1,1,"%s","");  /* weiﬂ auf schwarz erzwingen */
+  mvwprintw(w,1,1,"%s","");  /* wei√ü auf schwarz erzwingen */
   wrefresh(w);
 
   flg_int = 0;
@@ -140,7 +139,7 @@ void be_schreibe_dateien(int nr) {
   FILE  *datei;
   int  i;
   
-  os = (char*)xgetenv("OS");
+  os = xgetenv("OS");
 
   /* aktuelle datei ----------------------------------------------*/
 
@@ -213,7 +212,7 @@ void be_befehl(WINDOW *w,int t1,int t2) {
   char  *os;
   char  str[1024] = "";
 
-  os = (char*)xgetenv("OS");
+  os = xgetenv("OS");
 
   sprintf(str,"sh %s/os.%d%d",os,t1,t2);
 
@@ -314,7 +313,7 @@ void be_edit() {
           char  *os;
           char  str[1024];
 
-          os = (char*)xgetenv("OS");
+          os = xgetenv("OS");
           sprintf(str,"vi %s/os.%s",os,be_nr);
 
           xrun(str);

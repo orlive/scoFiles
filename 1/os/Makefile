@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-DNDEBUG
+CFLAGS=-DNDEBUG -Wno-deprecated
 
 LIBS =	-lcurses -lc 
 

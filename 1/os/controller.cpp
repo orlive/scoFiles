@@ -1,10 +1,10 @@
 #include "controller.h"
 extern "C" {
 #include "os.h"
+#include "os_dir.h"
+#include "os_be.h"
+#include "log.h"
 }
-
-#define D { FILE* out=fopen("/tmp/log.log","at"); fprintf(out,"%s/%d\n",__FILE__,__LINE__); fflush(out); fclose(out); }
-#define D2(a,b) { FILE* out=fopen("/tmp/log.log","at"); fprintf(out,"%s/%d  %s:%d\n",__FILE__,__LINE__,a,b); fflush(out); fclose(out); }
 
 void checkSize() {
   int oldX = getmaxx(winh);
@@ -15,10 +15,8 @@ void checkSize() {
     x = getmaxx(winh);
     y = getmaxy(winh);
 
-
     if ( oldX != x || oldY != y ) {
-      D2("x:",x);
-      D2("y:",y);
+      logPrintf(__FILE__,__LINE__,"x:%d y:%d",x,y);
       wresize(win[0],y-4,x/2);
       wresize(win[1],y-4,x/2);
       mvwin(win[0],0,0);
@@ -31,7 +29,9 @@ void checkSize() {
  
       //os_wininit();
       os_refresh_all();
-      D2("func-y:",getcury(func));
+      wclear(win[0]); drucke_dateien(0); show_status(0); wrefresh(win[0]);
+      wclear(win[1]); drucke_dateien(1); show_status(1); wrefresh(win[1]);
+      drucke_button_all(func);
     }
 
     std::this_thread::sleep_for( std::chrono::seconds(1) );

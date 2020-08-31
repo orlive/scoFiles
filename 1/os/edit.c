@@ -44,7 +44,7 @@ void load_txt( WINDOW *w,char *dateiname )
 	txt_cnt	= 0;
 
 	if(!(dat=fopen(dateiname,"r")))
-		fehler("EDIT Kann Datei nicht öffnen !");
+		fehler("EDIT Kann Datei nicht oeffnen !");
 
 	while( fgets(txt[txt_cnt],80,dat ))
 		txt_cnt++;
