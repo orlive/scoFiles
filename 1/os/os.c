@@ -189,7 +189,7 @@ void os_refresh_all() {
 }
 
 void os_int_stop() {
-  if (frage("Wirklich ? (j/n)"))
+  if (frage("Wirklich beenden ? (j/n)"))
     os_uninit();
   os_refresh_all();
 }
