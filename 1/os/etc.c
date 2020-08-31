@@ -1,8 +1,7 @@
+extern "C" {
+
 #include "etc.h"
 #include "os.h"
-
-int	flg_int;
-int	flg_quit;
 
 int wget_taste(WINDOW *w) {
 	int	t;
@@ -236,4 +235,6 @@ void sig_ignore()
 	signal(SIGINT ,sig_chk);
 	signal(SIGQUIT,sig_chk);
 	signal(SIGALRM,sig_chk);
+}
+
 }

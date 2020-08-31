@@ -1,3 +1,5 @@
+extern "C" {
+
 #include "os_dir.h"
 #include "os.h"
 #include "os_be.h"
@@ -16,7 +18,7 @@ int  sort_ordnung;
 #define  ANZ    d[nr].anz
 #define BALKEN    COLOR_CYAN
 
-#define D { FILE* out=fopen("log.log","at"); fprintf(out,"%s/%d\n",__FILE__,__LINE__); fflush(out); fclose(out); }
+#define D { FILE* out=fopen("/tmp/log.log","at"); fprintf(out,"%s/%d\n",__FILE__,__LINE__); fflush(out); fclose(out); }
 
 void sort_setup( int nr );
 int sort_dateien( t_ele *e1 , t_ele *e2 );
@@ -778,4 +780,6 @@ void os_hilfe() {
   (void)wget_taste(w);
 
   delwin(w);
+}
+
 }

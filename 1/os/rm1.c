@@ -1,8 +1,10 @@
+extern "C" {
+
 #include <stdio.h>
 #include <string.h>
-
-extern void xdelete(char *str,int pos,int anz);
-extern void xinsert(char *str1,int pos,char *str2);
+#define NOEXTERN 
+#include "os.h"
+#include "etc.h"
 
 int main()
 {
@@ -26,3 +28,4 @@ int main()
 
 void os_uninit() {}
 
+}

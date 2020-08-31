@@ -1,13 +1,15 @@
+#include "controller.h"
+extern "C" {
+
 #define NOEXTERN 
 #include "os.h"
 #include "os_dir.h"
 #include "os_be.h"
 #include "etc.h"
 
-#define D { FILE* out=fopen("log.log","at"); fprintf(out,"%s/%d\n",__FILE__,__LINE__); fflush(out); fclose(out); }
-#define D2(a,b) { FILE* out=fopen("log.log","at"); fprintf(out,"%s/%d  %s:%d\n",__FILE__,__LINE__,a,b); fflush(out); fclose(out); }
+#define D { FILE* out=fopen("/tmp/log.log","at"); fprintf(out,"%s/%d\n",__FILE__,__LINE__); fflush(out); fclose(out); }
+#define D2(a,b) { FILE* out=fopen("/tmp/log.log","at"); fprintf(out,"%s/%d  %s:%d\n",__FILE__,__LINE__,a,b); fflush(out); fclose(out); }
 
-t_dir  d[2];
 char   flg_get_old;
 
 int main( int argc , char *argv[] ) {
@@ -32,6 +34,9 @@ int main( int argc , char *argv[] ) {
   os_init();
   hole_button();
   drucke_button_all(func);
+
+  D;
+  controllerInit();
 
   for (;;) {
     move_dateien(nr);
@@ -189,4 +194,6 @@ void os_int_stop() {
   if (frage("Wirklich beenden ? (j/n)"))
     os_uninit();
   os_refresh_all();
+}
+
 }

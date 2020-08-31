@@ -1,4 +1,6 @@
-#include <malloc.h>
+extern "C" {
+
+#include <stdlib.h>
 
 #define anzahl	100
 #define match_obj
@@ -136,4 +138,7 @@ get_klammer(char *str2,int p)
 		}
 	}
 	return -8;
+}
+
+
 }

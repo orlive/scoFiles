@@ -1,3 +1,5 @@
+extern "C" {
+
 #include "eingabe.h"
 #include "etc.h"
 #include "os.h"
@@ -92,3 +94,6 @@ int input(WINDOW *w,int y,int x,int l,char *str) {
 			str[t] = '\0';
 	return 1;
 }
+
+}
+

@@ -1,3 +1,5 @@
+extern "C" {
+
 #include <match2.h>
 
 #define ANZ_ppos 200
@@ -186,3 +188,4 @@ kill_space(char *str)
 			break;
 }
 
+}

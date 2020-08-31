@@ -1,3 +1,5 @@
+extern "C" {
+
 #include "match.h"
 
 #define ANZ_ppos 200
@@ -401,4 +403,6 @@ int stoprun(int nr,char *x)
 {
   /*printf(x);*/
   return nr;
+}
+
 }

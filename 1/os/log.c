@@ -1,3 +1,5 @@
+extern "C" {
+
 #include "log.h"
 
 FILE* logFD;
@@ -38,4 +40,6 @@ void debug_print() {
 
 void debug_clear() {
 	err_cnt = 0;
+}
+
 }

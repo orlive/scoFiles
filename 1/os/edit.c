@@ -1,3 +1,5 @@
+extern "C" {
+
 #include <stdio.h>
 #include <curses.h>
 #include <string.h>
@@ -54,4 +56,6 @@ void draw_txt( WINDOW *w )
 
 	for(i=0;i<txt_cnt;i++)
 		mvwprintw(w,i+1,1,txt[i]);
+}
+
 }

@@ -63,17 +63,16 @@ EXTERN t_dir  d[2];
 #undef NOEXTERN
 #undef EXTERN
 
-void os_usage( void );
-void os_init_dir( void );
+void os_usage( );
+void os_init_dir( );
 void os_init_dir2( int nr );
 int os_finde_name( t_dir *d , char *name );
-void os_init( void );
-void os_get_old( void );
-void os_set_old( void );
-void os_wininit( void );
-void os_uninit( void );
-void os_refresh_all( void );
-void os_int_stop( void );
-
+void os_init( );
+void os_get_old( );
+void os_set_old( );
+void os_wininit( );
+void os_uninit( );
+void os_refresh_all( );
+void os_int_stop( );
 
 #endif

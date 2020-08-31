@@ -1,4 +1,4 @@
-CC=cc
+CC=g++
 CFLAGS=-DNDEBUG
 
 LIBS =	-lcurses -lc 
@@ -21,10 +21,15 @@ OS_OBJ =      \
 		etc.o     \
 		log.o     \
 		match.o   \
-		edit.o
+		edit.o  \
+		controller.o
 
 os: $(OS_OBJ)
 	$(CC) $(CFLAGS) -o os $(OS_OBJ) $(OS_OBJA) $(LIBS)
+
+cleanall: 
+	rm -f *.o os; \
+	make os
 
 #==============================================================================#
 

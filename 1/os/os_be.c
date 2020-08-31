@@ -1,8 +1,10 @@
+extern "C" {
+
 #include "os_be.h"
 #include "etc.h"
 #include "eingabe.h"
 
-#define D { FILE* out=fopen("log.log","at"); fprintf(out,"%s/%d\n",__FILE__,__LINE__); fflush(out); fclose(out); }
+#define D { FILE* out=fopen("/tmp/log.log","at"); fprintf(out,"%s/%d\n",__FILE__,__LINE__); fflush(out); fclose(out); }
 
 char  c_n[8][8] = {
       "Schwarz",
@@ -13,11 +15,6 @@ char  c_n[8][8] = {
       "Orange",
       "Türkis",
       "Weiß" };
-
-extern  int    flg_int;
-extern  int    flg_quit;
-extern  t_dir  d[2];
-extern  WINDOW *func;
 
 t_button  button[BEFEHLE];
 
@@ -412,4 +409,6 @@ void be_edit_farben(int *vc,int *hc) {
   }
 
   delwin(w);
+}
+
 }
