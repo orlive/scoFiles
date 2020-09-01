@@ -27,16 +27,16 @@ void hole_button() {
   strcpy(eingabe,xgetenv("OS"));
   strcat(eingabe,"/os.init");
 
-  if(!(datei = fopen(eingabe,"r")) )
+  if (!(datei = fopen(eingabe,"r")) )
     fehler("Kann Datei os.init nicht oeffnen !");
 
-  for(i=0;i<BEFEHLE;i++)
+  for (i=0;i<BEFEHLE;i++)
   {
     fgets(button[i].name,10,datei);
-    if(!button[i].name[0])
+    if (!button[i].name[0])
       break;
     l = strlen(button[i].name) - 1;
-    if(l>=0)
+    if (l>=0)
       button[i].name[l] = '\0';
 
     fgets(tmp,20,datei);  button[i].vc = atoi(tmp);
@@ -53,10 +53,10 @@ void speicher_button() {
   strcpy(eingabe,xgetenv("OS"));
   strcat(eingabe,"/os.init");
 
-  if(!(datei = fopen(eingabe,"w")) )
+  if (!(datei = fopen(eingabe,"w")) )
     fehler("Kann Datei os.init nicht oeffnen !");
 
-  for(i=0;i<BEFEHLE;i++)
+  for (i=0;i<BEFEHLE;i++)
   {
     fprintf(datei,"%s\n",button[i].name);
     fprintf(datei,"%d\n",button[i].vc);
@@ -69,7 +69,7 @@ void drucke_button_all(WINDOW *w) {
   int  x;
   int  c;
 
-  for(x=0;x<=7;x++)
+  for (x=0;x<=7;x++)
     drucke_button(0,w,x);
   wrefresh(w);
 }
@@ -80,13 +80,13 @@ void drucke_button(int flg,WINDOW *w,int x) {
   p = x;
   x *= 10;
 
-  for(y=0;y<4;y++)
+  for (y=0;y<4;y++)
   {
-    if(p>=BEFEHLE)
+    if (p>=BEFEHLE)
       break;
 
-    if(strlen(button[p].name)>0)
-      if(flg)
+    if (strlen(button[p].name)>0)
+      if (flg)
       {
         blinkcolor(w,button[p].vc,button[p].hc);
         mvwprintw(w,y,x,"<%-8s>",button[p].name);
@@ -115,10 +115,10 @@ void be_wahl(int nr,WINDOW *w,int x) {
 
   flg_int = 0;
   t = wget_taste(w);
-  if( flg_int )
+  if ( flg_int )
     t = 27;
 
-  if(t>='1' && t<='4')    /* befehls-wahl */
+  if (t>='1' && t<='4')    /* befehls-wahl */
   {
     be_schreibe_dateien(nr);
     chdir(d[nr].akt_dir);
@@ -146,7 +146,7 @@ void be_schreibe_dateien(int nr) {
   strcpy(name,os);
   strcat(name,"/os.akt");
 
-  if(!(datei = fopen(name,"w")) )
+  if (!(datei = fopen(name,"w")) )
     fehler("Kann Datei os.akt nicht oeffnen !");
 
   i = d[nr].akt + d[nr].idx;
@@ -159,11 +159,11 @@ void be_schreibe_dateien(int nr) {
   strcpy(name,os);
   strcat(name,"/os.mark");
 
-  if(!(datei = fopen(name,"w")) )
+  if (!(datei = fopen(name,"w")) )
     fehler("Kann Datei os.mark nicht oeffnen !");
 
-  for(i=0;i<d[nr].anz;i++)
-    if( d[nr].e[i].mark == '*' )
+  for (i=0;i<d[nr].anz;i++)
+    if ( d[nr].e[i].mark == '*' )
       fprintf(datei,"%s\n",d[nr].e[i].name);
 
   fclose(datei);
@@ -173,11 +173,11 @@ void be_schreibe_dateien(int nr) {
   strcpy(name,os);
   strcat(name,"/os.all");
 
-  if(!(datei = fopen(name,"w")) )
+  if (!(datei = fopen(name,"w")) )
     fehler("Kann Datei os.all nicht oeffnen !");
 
-  for(i=0;i<d[nr].anz;i++)
-    if(d[nr].e[i].dir != 'd')  /* kein directory */
+  for (i=0;i<d[nr].anz;i++)
+    if (d[nr].e[i].dir != 'd')  /* kein directory */
       fprintf(datei,"%s\n",d[nr].e[i].name);
 
   fclose(datei);
@@ -187,7 +187,7 @@ void be_schreibe_dateien(int nr) {
   strcpy(name,os);
   strcat(name,"/os_dir.akt");
 
-  if(!(datei = fopen(name,"w")) )
+  if (!(datei = fopen(name,"w")) )
     fehler("Kann Datei os_dir.akt nicht oeffnen !");
 
   fprintf(datei,"%s\n",d[nr].akt_dir);
@@ -199,7 +199,7 @@ void be_schreibe_dateien(int nr) {
   strcpy(name,os);
   strcat(name,"/os_dir.other");
 
-  if(!(datei = fopen(name,"w")) )
+  if (!(datei = fopen(name,"w")) )
     fehler("Kann Datei os_dir.other nicht oeffnen !");
 
   fprintf(datei,"%s\n",d[1-nr].akt_dir);
@@ -235,17 +235,17 @@ void be_edit() {
   box(w,0,0);
 
   mvwprintw(w,0,2,"%s","[ Befehl editieren ]");
-  for(;;)
+  for (;;)
   {
     highcolor(w,COLOR_WHITE,COLOR_BLUE);
 
     be_nr[0] = '\0';
 
     mvwprintw(w,2,2,"Befehlsnr.: [  ]");
-    if(!input(w,2,15,2,be_nr))
+    if (!input(w,2,15,2,be_nr))
       break;
 
-    if(be_nr[0]<'1' || be_nr[0]>'8' || be_nr[1]<'1' || be_nr[1]>'4')
+    if (be_nr[0]<'1' || be_nr[0]>'8' || be_nr[1]<'1' || be_nr[1]>'4')
     {
       printf("%c",7);
       continue;
@@ -258,7 +258,7 @@ void be_edit() {
     but.hc = button[nr].hc;
     but.vc = button[nr].vc;
 
-    for(;;)
+    for (;;)
     {
       highcolor(w,COLOR_WHITE,COLOR_BLUE);
       mvwprintw(w,4,2,
@@ -269,7 +269,7 @@ void be_edit() {
 
       highcolor(w,COLOR_WHITE,COLOR_BLUE);
 
-      switch(akt)
+      switch (akt)
       {
       case 0:
         mvwprintw(w,4,2,"[");
@@ -288,27 +288,27 @@ void be_edit() {
 
       flg_int = 0;
       t = wget_taste(w);
-      if( flg_int ) 
+      if ( flg_int ) 
         t = 27;
 
-      switch(t)
+      switch (t)
       {
       case '\n':
-        if(akt==0)
+        if (akt==0)
         {
           highcolor(w,but.vc,but.hc);
-          if(!input(w,4,3,8,but.name))
+          if (!input(w,4,3,8,but.name))
             strcpy(but.name,
               button[nr].name);
         }
-        else if(akt==1)
+        else if (akt==1)
         {
           be_edit_farben(&but.vc,&but.hc);
           os_refresh_all();
           touchwin(w);
           wrefresh(w);
         }
-        else if(akt==2)
+        else if (akt==2)
         {
           char  *os;
           char  str[1024];
@@ -318,7 +318,7 @@ void be_edit() {
 
           xrun(str);
         }
-        else if(akt==3)
+        else if (akt==3)
         {
           strcpy( button[nr].name,but.name );
           button[nr].hc = but.hc;
@@ -335,7 +335,7 @@ void be_edit() {
         akt = (akt==3) ? 0 : akt+1;
         break;
       }
-      if(t==27)
+      if (t==27)
         break;
     }
     highcolor(w,COLOR_WHITE,COLOR_BLUE);
@@ -362,24 +362,24 @@ void be_edit_farben(int *vc,int *hc) {
 
   keypad(w,TRUE);
 
-  for(i=0;i<8;i++)
-    for(t=0;t<8;t++)
+  for (i=0;i<8;i++)
+    for (t=0;t<8;t++)
     {
       highcolor(w,t,i);
       wmove(w,t+2,i*4+3);
       wprintw(w," # ");
     }
 
-  while(rc)
+  while (rc)
   {
     wmove(w,v+2,h*4+3);
-    if( h == COLOR_WHITE )
+    if ( h == COLOR_WHITE )
       highcolor(w,COLOR_BLACK,h);
     else
       highcolor(w,COLOR_WHITE,h);
     wprintw(w,"[");
     highcolor(w,v,h);wprintw(w,"#");
-    if( h == COLOR_WHITE )
+    if ( h == COLOR_WHITE )
       highcolor(w,COLOR_BLACK,h);
     else
       highcolor(w,COLOR_WHITE,h);
@@ -388,13 +388,13 @@ void be_edit_farben(int *vc,int *hc) {
 
     flg_int = 0;
     t = wget_taste(w);
-    if( flg_int )
+    if ( flg_int )
       t = 27;
 
     highcolor(w,v,h);
     mvwprintw(w,v+2,h*4+3," # ");
 
-    switch(t)
+    switch (t)
     {
     case KEY_LEFT:  h = (h==0) ? 0 : h-1; break;
     case KEY_RIGHT:  h = (h==7) ? 7 : h+1; break;

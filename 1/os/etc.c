@@ -79,7 +79,7 @@ int frage(char *frage) {
 
   do {
     t=wget_taste(w);
-  } while(!strchr("jJnN",t));
+  } while (!strchr("jJnN",t));
 
   delwin(w);
 
@@ -192,7 +192,7 @@ void sig_abbr(int sig) {
 }
 
 void sig_chk(int sig) {
-  switch(sig) {
+  switch (sig) {
     case SIGINT :  signal(SIGINT,sig_chk);  flg_int  = 1 ; break;
     case SIGQUIT:  signal(SIGQUIT,sig_chk); flg_quit = 1 ; break;
     case SIGALRM:  signal(SIGALRM,sig_chk); break;

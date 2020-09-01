@@ -254,7 +254,7 @@ void move_dateien(int nr) {
 
   drucke_dateien(nr);
 
-  while(flg) {
+  while (flg) {
     f_neu = 0;
 
     if ( flg_int )
@@ -623,7 +623,7 @@ void hole_filter(int nr) {
       (void)wget_taste(w);
     }
       
-  } while(rc<0);
+  } while (rc<0);
 
   if ( rc>=0 )
     strcpy( d[nr].filter,tmp );
@@ -662,7 +662,7 @@ void hole_sort(int nr) {
 
   highcolor(w,COLOR_WHITE,COLOR_BLUE);
 
-  while(rc) {
+  while (rc) {
     mvwaddch(w,y+2, 2,'[');
     mvwaddch(w,y+2,26,']');
 
@@ -731,7 +731,7 @@ int hole_directory(int nr,char *tmp) {
       }
     }
 
-  } while(loop);
+  } while (loop);
 
   delwin(w);
 
