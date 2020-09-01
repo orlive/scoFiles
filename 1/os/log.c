@@ -11,14 +11,16 @@ int log_open() {
   static char *logFileName;
   char  *ptr;
 
-  if ( !logFileName && getenv("OS") ) {
-    logFileName = (char*) malloc( strlen(getenv("OS")) + strlen(FILE_NAME) + 2 );
-    sprintf(logFileName,"%s/%s",getenv("OS"),FILE_NAME );
+  if ( !logFileName ) {
+    if ( getenv("OS") ) {
+      logFileName = (char*) malloc( strlen(getenv("OS")) + strlen(FILE_NAME) + 2 );
+      sprintf(logFileName,"%s/%s",getenv("OS"),FILE_NAME );
+    } else {
+      logFileName = FILE_NAME;
+    }
   }
   
-  if ( logFileName ) {
-    logFD = fopen(logFileName,"at");
-  }
+  logFD = fopen(logFileName,"at");
 
   return logFD ? 1 : 0;
 }

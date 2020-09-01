@@ -108,9 +108,9 @@ void hole_dateien(t_dir *d,char *pfad) {
     }
 
     if ( strlen(d->filter)>0 )  /* Filter gesetzt ? */
-      d->zeilen = getmaxy(winh)-6-1;
+      d->zeilen = getmaxy(stdscr)-6-1;
     else
-      d->zeilen = getmaxy(winh)-6;
+      d->zeilen = getmaxy(stdscr)-6;
     d->e[i].mark = ' ';
     if (d->e[i].dir!='d')
       d->e[i].size = stat_buf.st_size;
@@ -450,7 +450,7 @@ void move_dateien(int nr) {
 
     flg_int = 0;
 
-    t = wget_taste(win[nr]);
+    t = wgetch(win[nr]);
 
     if (0)
       mvwprintw(func,1,1,"%d",t);wrefresh(func);
@@ -620,7 +620,7 @@ void hole_filter(int nr) {
     if (rc<0) {
       wprintw(w,"  <TASTE>");
       beep();
-      (void)wget_taste(w);
+      (void)wgetch(w);
     }
       
   } while (rc<0);
@@ -669,7 +669,7 @@ void hole_sort(int nr) {
     wrefresh(w);
 
     flg_int = 0;
-    t = wget_taste(w);
+    t = wgetch(w);
     if ( flg_int )
       t = 27;
 
@@ -727,7 +727,7 @@ int hole_directory(int nr,char *tmp) {
         wprintw(w,"Verzeichnis existiert nicht!");
         wprintw(w,"  <TASTE>");
         beep();
-        (void)wget_taste(w);
+        (void)wgetch(w);
       }
     }
 
@@ -764,7 +764,7 @@ void os_hilfe() {
 
   wrefresh(w);
 
-  (void)wget_taste(w);
+  (void)wgetch(w);
 
   delwin(w);
 }

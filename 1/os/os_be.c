@@ -114,7 +114,7 @@ void be_wahl(int nr,WINDOW *w,int x) {
   wrefresh(w);
 
   flg_int = 0;
-  t = wget_taste(w);
+  t = wgetch(w);
   if ( flg_int )
     t = 27;
 
@@ -287,7 +287,7 @@ void be_edit() {
       }
 
       flg_int = 0;
-      t = wget_taste(w);
+      t = wgetch(w);
       if ( flg_int ) 
         t = 27;
 
@@ -387,7 +387,7 @@ void be_edit_farben(int *vc,int *hc) {
     wrefresh(w);
 
     flg_int = 0;
-    t = wget_taste(w);
+    t = wgetch(w);
     if ( flg_int )
       t = 27;
 

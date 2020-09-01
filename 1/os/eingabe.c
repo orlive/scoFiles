@@ -22,7 +22,7 @@ int input(WINDOW *w,int y,int x,int l,char *str) {
 
     wmove(w,y,x+pos);
     flg_int = 0;
-    t = wget_taste(w);
+    t = wgetch(w);
     if (flg_int)
       t = 27;
 

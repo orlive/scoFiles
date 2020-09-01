@@ -57,7 +57,7 @@ typedef struct {
 
 EXTERN int  flg_int;
 EXTERN int  flg_quit;
-EXTERN WINDOW *winh,*win[2],*func;
+EXTERN WINDOW *win[2],*func;
 EXTERN t_dir  d[2];
 
 #undef NOEXTERN

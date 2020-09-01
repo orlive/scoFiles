@@ -6,8 +6,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
-int wget_taste( WINDOW *w );
 int finde(char *s1,char *s2);
 char* xmalloc(size_t len,char *message);
 void xfree(void *ptr);
