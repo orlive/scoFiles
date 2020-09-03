@@ -22,13 +22,15 @@ void hole_button() {
   int  i = 0;
   char  tmp[21];
   int   l;
-  char  eingabe[100] = "";
+  char *eingabe = (char*)malloc( strlen(xgetenv("OS"))+20 );
   
   strcpy(eingabe,xgetenv("OS"));
   strcat(eingabe,"/os.init");
 
-  if (!(datei = fopen(eingabe,"r")) )
-    fehler("Kann Datei os.init nicht oeffnen !");
+  if (!(datei = fopen(eingabe,"rt")) )
+    fehler("Kann Datei os.init nicht einlesen !");
+
+  free(eingabe);
 
   for (i=0;i<BEFEHLE;i++)
   {
@@ -48,13 +50,15 @@ void hole_button() {
 void speicher_button() {
   FILE  *datei;
   int  i = 0;
-  char  eingabe[100] = "";
+  char *eingabe = (char*)malloc( strlen(xgetenv("OS"))+20 );
   
   strcpy(eingabe,xgetenv("OS"));
   strcat(eingabe,"/os.init");
 
-  if (!(datei = fopen(eingabe,"w")) )
+  if (!(datei = fopen(eingabe,"wt")) )
     fehler("Kann Datei os.init nicht oeffnen !");
+
+  free(eingabe);
 
   for (i=0;i<BEFEHLE;i++)
   {
@@ -146,7 +150,7 @@ void be_schreibe_dateien(int nr) {
   strcpy(name,os);
   strcat(name,"/os.akt");
 
-  if (!(datei = fopen(name,"w")) )
+  if (!(datei = fopen(name,"wt")) )
     fehler("Kann Datei os.akt nicht oeffnen !");
 
   i = d[nr].akt + d[nr].idx;
@@ -159,7 +163,7 @@ void be_schreibe_dateien(int nr) {
   strcpy(name,os);
   strcat(name,"/os.mark");
 
-  if (!(datei = fopen(name,"w")) )
+  if (!(datei = fopen(name,"wt")) )
     fehler("Kann Datei os.mark nicht oeffnen !");
 
   for (i=0;i<d[nr].anz;i++)
@@ -173,7 +177,7 @@ void be_schreibe_dateien(int nr) {
   strcpy(name,os);
   strcat(name,"/os.all");
 
-  if (!(datei = fopen(name,"w")) )
+  if (!(datei = fopen(name,"wt")) )
     fehler("Kann Datei os.all nicht oeffnen !");
 
   for (i=0;i<d[nr].anz;i++)
@@ -187,7 +191,7 @@ void be_schreibe_dateien(int nr) {
   strcpy(name,os);
   strcat(name,"/os_dir.akt");
 
-  if (!(datei = fopen(name,"w")) )
+  if (!(datei = fopen(name,"wt")) )
     fehler("Kann Datei os_dir.akt nicht oeffnen !");
 
   fprintf(datei,"%s\n",d[nr].akt_dir);
@@ -199,7 +203,7 @@ void be_schreibe_dateien(int nr) {
   strcpy(name,os);
   strcat(name,"/os_dir.other");
 
-  if (!(datei = fopen(name,"w")) )
+  if (!(datei = fopen(name,"wt")) )
     fehler("Kann Datei os_dir.other nicht oeffnen !");
 
   fprintf(datei,"%s\n",d[1-nr].akt_dir);
