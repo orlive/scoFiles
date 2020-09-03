@@ -8,18 +8,16 @@ extern "C" {
 #include "etc.h"
 #include "log.h"
 
-char   flg_get_old;
+char flg_get_old = 1;
 
 int main( int argc , char *argv[] ) {
   int nr = 0;
   int t;
 
-  flg_get_old = 1;
-
   while ( (t = getopt(argc,argv, "tmn")) != -1) {
     switch (t) {
       case 't': { // test
-          winh = initscr();
+          initscr();
           //printf("test:%c\n", mvwgetch(winh,0,0) );
           refresh();
           int rc = frage("Wirklich beenden ? (j/n)");
@@ -42,12 +40,11 @@ int main( int argc , char *argv[] ) {
   hole_button();
   drucke_button_all(func);
 
-  D;
   controllerInit();
 
   for (;;) {
     move_dateien(nr);
-    if ( (t=wget_taste(win[nr])) ) {
+    if ( (t=wgetch(win[nr])) ) {
       if ( t=='\t' ) {
         nr = 1-nr;
         chdir(d[nr].akt_dir);
@@ -55,7 +52,7 @@ int main( int argc , char *argv[] ) {
     }
   }
     
-  wget_taste(win[0]);
+  wgetch(win[0]);
 
   os_uninit();
 }
@@ -87,14 +84,14 @@ void os_init_dir2( int nr ) {
 void os_init() {
   sig_ignore();
 
-  winh  = initscr();
+  initscr();
 
-  win[0]  = newwin(getmaxy(winh)-4,getmaxx(winh)/2,0,0);
-  win[1]  = newwin(getmaxy(winh)-4,getmaxx(winh)/2,0,getmaxx(winh)/2);
-  func  = newwin(4,getmaxx(winh),getmaxy(winh)-4,0);
+  win[0] = newwin(getmaxy(stdscr)-4,getmaxx(stdscr)/2,0,0);
+  win[1] = newwin(getmaxy(stdscr)-4,getmaxx(stdscr)/2,0,getmaxx(stdscr)/2);
+  func   = newwin(4,getmaxx(stdscr),getmaxy(stdscr)-4,0);
 
   start_color();
-  xinit_color();  /* etc.c */
+  xinit_color();
 
   os_wininit();
   os_get_old();
@@ -161,35 +158,34 @@ void os_set_old( void ) {
 void os_wininit() {
   noecho();
 
-  keypad(winh   ,TRUE);
+  keypad(stdscr ,TRUE);
   keypad(win[0] ,TRUE);
   keypad(win[1] ,TRUE);
   keypad(func   ,TRUE);
 }
 
 void os_uninit() {
-  (void)refresh();
-  (void)echo();
-  (void)clear();
-  (void)endwin();
+  refresh();
+  echo();
+  clear();
+  endwin();
 
   os_set_old();
   exit(1);
 }
 
 void os_refresh_all() {
-  touchwin(winh);
   touchwin(func);
   touchwin(win[0]);
   touchwin(win[1]);
 
   if (0) {
-    wrefresh(winh);
+    wrefresh(stdscr);
     wrefresh(func);
     wrefresh(win[0]);
     wrefresh(win[1]);
   } else {
-    wnoutrefresh(winh);
+    wnoutrefresh(stdscr);
     wnoutrefresh(func);
     wnoutrefresh(win[0]);
     wnoutrefresh(win[1]);
@@ -198,7 +194,7 @@ void os_refresh_all() {
 }
 
 void os_int_stop() {
-  if (frage("Wirklich beenden ? (j/n)"))
+  if (frage("Wirklich beenden (j/n) ? "))
     os_uninit();
   os_refresh_all();
 }

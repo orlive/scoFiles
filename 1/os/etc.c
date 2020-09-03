@@ -3,14 +3,6 @@ extern "C" {
 #include "etc.h"
 #include "os.h"
 
-int wget_taste(WINDOW *w) {
-  int  t;
-
-  t = wgetch(w);
-
-  return t;
-}
-
 int finde(char *s1,char *s2) {
   int  len;
   char  *c1;
@@ -41,9 +33,8 @@ void xfree(void *ptr) {
 }
 
 void fehler(char *message) {
-  WINDOW *w;
+  WINDOW *w = newwin(5,78,1,1);
 
-  w = newwin(5,78,1,1);
   highcolor(w,7,4);
   w_clear(w);
   box(w,0,0);
@@ -51,18 +42,18 @@ void fehler(char *message) {
   blinkcolor(w,7,4);
   mvwprintw(w,3,2,"%s",message);
 
-  (void)wget_taste(w);
-  os_uninit();
+  keypad(w ,TRUE);
+  (void)wgetch(w);
+  delwin(w);
+
+  endwin();
+  exit(1);
 }
 
 int frage(char *frage) {
-  WINDOW  *w;
-  int  t;
-  int  len;
-
-  len = strlen(frage);
-
-  w = newwin(3,len+4,(getmaxy(winh)-3)/2,(getmaxx(winh)-len)/2);
+  int t;
+  int len = strlen(frage);
+  WINDOW *w = newwin(3,len+4,(getmaxy(stdscr)-3)/2,(getmaxx(stdscr)-len)/2);
 
   if (COLOR_PAIRS>-1) {
     init_pair(12,COLOR_BLUE,COLOR_WHITE);
@@ -78,7 +69,7 @@ int frage(char *frage) {
   wrefresh(w);
 
   do {
-    t=wget_taste(w);
+    t=wgetch(w);
   } while (!strchr("jJnN",t));
 
   delwin(w);
@@ -87,17 +78,19 @@ int frage(char *frage) {
 }
 
 void w_clear(WINDOW *w) {
-  int  x,y;
-  int  i;
-  char  tmp[81] = "                                                                                ";
+  int   x   = getmaxx(w);
+  int   y   = getmaxy(w);
+  char *tmp = (char*)malloc(x);
 
-  getmaxyx(w,y,x);
-    
+  memset(tmp,' ',x-2);
   tmp[x-2] = '\0';
 
   y--;
-  for (i=1;i<y;i++)
+  for ( int i=1 ; i<y ; i++ ) {
     mvwprintw(w,i,1,"%s",tmp);
+  }
+
+  free(tmp);
 }
 
 void xinit_color() {

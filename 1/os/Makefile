@@ -4,9 +4,7 @@ CFLAGS=-DNDEBUG -Wno-deprecated
 LIBS =	-lcurses -lc 
 
 PROGS = \
-		os	\
-		rm1	\
-		mouse
+		os
 
 make:
 	@make $(PROGS)
@@ -27,27 +25,11 @@ OS_OBJ =      \
 os: $(OS_OBJ)
 	$(CC) $(CFLAGS) -o os $(OS_OBJ) $(OS_OBJA) $(LIBS)
 
+clear:
+	rm -f *.o os;
+
 cleanall: 
 	rm -f *.o os; \
 	make os
-
-#==============================================================================#
-
-TEST_OBJ = \
-		rm1.o
-
-TEST_OBJA = \
-		etc.o		
-
-rm1: $(TEST_OBJ) $(TEST_OBJA)
-	$(CC) $(CFLAGS) -o rm1 $(TEST_OBJ) $(TEST_OBJA) $(LIBS)
-
-#==============================================================================#
-
-MOUSE_OBJ = \
-		mouse.o
-
-mouse: $(MOUSE_OBJ)
-	$(CC) $(CFLAGS) -o mouse $(MOUSE_OBJ) $(LIBS)
 
 #==============================================================================#

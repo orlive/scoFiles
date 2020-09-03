@@ -7,13 +7,13 @@ extern "C" {
 }
 
 void checkSize() {
-  int oldX = getmaxx(winh);
-  int oldY = getmaxy(winh);
+  int oldX = getmaxx(stdscr);
+  int oldY = getmaxy(stdscr);
   int x,y;
 
   while (1) {
-    x = getmaxx(winh);
-    y = getmaxy(winh);
+    x = getmaxx(stdscr);
+    y = getmaxy(stdscr);
 
     if ( oldX != x || oldY != y ) {
       logPrintf(__FILE__,__LINE__,"x:%d y:%d",x,y);

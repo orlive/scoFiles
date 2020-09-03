@@ -3,6 +3,7 @@ extern "C" {
 #include <stdio.h>
 #include <curses.h>
 #include <string.h>
+#include <unistd.h>
 
 void edit( char *dateiname );
 void draw_txt( WINDOW *w );
@@ -16,23 +17,24 @@ char  txt[10][80];
 int  txt_cnt;
 
 void edit( char *dateiname ) {
-        FILE  *dat;
-        WINDOW  *w;
-        int  sx = 20;
-        int  sy = 10;
-        int  t;
+  FILE    *dat;
+  int  sx = 20;
+  int  sy = 10;
+  int  t;
 
-        w = newwin(sy+2,sx+2,2,2);
-        nodelay(w,TRUE);
-        keypad(w,TRUE);
-        highcolor(w,COLOR_WHITE,COLOR_BLUE);
-        w_clear(w);
-        box(w,0,0);
+  WINDOW *w = newwin(sy+2,sx+2,2,2);
+  nodelay(w,TRUE);
+  keypad(w,TRUE);
+  highcolor(w,COLOR_WHITE,COLOR_BLUE);
+  w_clear(w);
+  box(w,0,0);
 
-        load_txt(w,dateiname);
-        draw_txt(w);
+  load_txt(w,dateiname);
+  draw_txt(w);
 
-  while ((t=wgetch(w))==ERR);
+  while ((t=wgetch(w))==ERR) {
+    usleep(100);
+  }
 
   delwin(w);
 }
