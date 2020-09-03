@@ -16,8 +16,17 @@ int main( int argc , char *argv[] ) {
 
   flg_get_old = 1;
 
-  while ( (t = getopt(argc,argv, "mn")) != -1) {
+  while ( (t = getopt(argc,argv, "tmn")) != -1) {
     switch (t) {
+      case 't': { // test
+          winh = initscr();
+          //printf("test:%c\n", mvwgetch(winh,0,0) );
+          refresh();
+          int rc = frage("Wirklich beenden ? (j/n)");
+          endwin();
+          return rc;
+        }
+        break;
       case 'm':
         COLOR_PAIRS=-1;
         break;
