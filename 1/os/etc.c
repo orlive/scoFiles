@@ -3,6 +3,18 @@ extern "C" {
 #include "etc.h"
 #include "os.h"
 
+char* makePathFromEnvAndName( const char* envName,const char* fileName ) {
+  char *path = 0;
+  char *env  = getenv(envName);
+
+  if ( env && fileName ) {
+    path = (char*) malloc( strlen(env) + strlen(fileName) + 2 );
+    sprintf(path,"%s/%s",env,fileName);
+  }
+
+  return path;
+}
+
 int finde(char *s1,char *s2) {
   int  len;
   char  *c1;

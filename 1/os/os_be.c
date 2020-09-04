@@ -22,14 +22,10 @@ void hole_button() {
   int  i = 0;
   char  tmp[21];
   int   l;
-  char *eingabe = (char*)malloc( strlen(xgetenv("OS"))+20 );
-  
-  strcpy(eingabe,xgetenv("OS"));
-  strcat(eingabe,"/os.init");
 
+  char *eingabe = makePathFromEnvAndName( "OS","os.init" );
   if (!(datei = fopen(eingabe,"rt")) )
     fehler("Kann Datei os.init nicht einlesen !");
-
   free(eingabe);
 
   for (i=0;i<BEFEHLE;i++)
@@ -50,14 +46,10 @@ void hole_button() {
 void speicher_button() {
   FILE  *datei;
   int  i = 0;
-  char *eingabe = (char*)malloc( strlen(xgetenv("OS"))+20 );
-  
-  strcpy(eingabe,xgetenv("OS"));
-  strcat(eingabe,"/os.init");
 
+  char *eingabe = makePathFromEnvAndName( "OS","os.init" );
   if (!(datei = fopen(eingabe,"wt")) )
     fehler("Kann Datei os.init nicht oeffnen !");
-
   free(eingabe);
 
   for (i=0;i<BEFEHLE;i++)
@@ -138,20 +130,15 @@ void be_wahl(int nr,WINDOW *w,int x) {
 }
 
 void be_schreibe_dateien(int nr) {
-  char  *os;
-  char  name[100] = "";
   FILE  *datei;
   int  i;
   
-  os = xgetenv("OS");
-
   /* aktuelle datei ----------------------------------------------*/
 
-  strcpy(name,os);
-  strcat(name,"/os.akt");
-
+  char *name = makePathFromEnvAndName( "OS","os.akt" ); 
   if (!(datei = fopen(name,"wt")) )
     fehler("Kann Datei os.akt nicht oeffnen !");
+  free(name);
 
   i = d[nr].akt + d[nr].idx;
   fprintf(datei,"%s",d[nr].e[i].name);
@@ -160,11 +147,10 @@ void be_schreibe_dateien(int nr) {
 
   /* markierte dateien -------------------------------------------*/
 
-  strcpy(name,os);
-  strcat(name,"/os.mark");
-
+  name = makePathFromEnvAndName( "OS","os.mark" ); 
   if (!(datei = fopen(name,"wt")) )
     fehler("Kann Datei os.mark nicht oeffnen !");
+  free(name);
 
   for (i=0;i<d[nr].anz;i++)
     if ( d[nr].e[i].mark == '*' )
@@ -174,11 +160,10 @@ void be_schreibe_dateien(int nr) {
 
   /* alle dateien (keine directories)-----------------------------*/
 
-  strcpy(name,os);
-  strcat(name,"/os.all");
-
+  name = makePathFromEnvAndName( "OS","os.all" ); 
   if (!(datei = fopen(name,"wt")) )
     fehler("Kann Datei os.all nicht oeffnen !");
+  free(name);
 
   for (i=0;i<d[nr].anz;i++)
     if (d[nr].e[i].dir != 'd')  /* kein directory */
@@ -188,11 +173,10 @@ void be_schreibe_dateien(int nr) {
 
   /* aktuelles directories ---------------------------------------*/
 
-  strcpy(name,os);
-  strcat(name,"/os_dir.akt");
-
+  name = makePathFromEnvAndName( "OS","os_dir.akt" ); 
   if (!(datei = fopen(name,"wt")) )
     fehler("Kann Datei os_dir.akt nicht oeffnen !");
+  free(name);
 
   fprintf(datei,"%s\n",d[nr].akt_dir);
 
@@ -200,11 +184,10 @@ void be_schreibe_dateien(int nr) {
 
   /* anderes directories -----------------------------------------*/
 
-  strcpy(name,os);
-  strcat(name,"/os_dir.other");
-
+  name = makePathFromEnvAndName( "OS","os_dir.other" ); 
   if (!(datei = fopen(name,"wt")) )
     fehler("Kann Datei os_dir.other nicht oeffnen !");
+  free(name);
 
   fprintf(datei,"%s\n",d[1-nr].akt_dir);
 

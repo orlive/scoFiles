@@ -8,6 +8,7 @@
 #include <string.h>
 #include <unistd.h>
 
+char* makePathFromEnvAndName( const char* envName,const char* fileName );
 int finde(char *s1,char *s2);
 char* xmalloc(size_t len,char *message);
 void xfree(void *ptr);
