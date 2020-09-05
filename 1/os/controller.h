@@ -3,8 +3,11 @@
 
 #include <iostream>
 #include <thread>
+#include <mutex>
 #include <chrono>
 
+void mutexLock();
+void mutexUnlock();
 void checkSize();
 void controllerInit();
 

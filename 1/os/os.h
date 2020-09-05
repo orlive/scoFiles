@@ -13,10 +13,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define ZEILEN  18
-#define SPALTEN 40
-#define  BEFEHLE 32
-#define DATEIEN  500
+#define ZEILEN   18
+#define SPALTEN  40
+#define BEFEHLE  32
+#define DATEIEN 500
 
 typedef struct  {
   char   dir;         // 'd'=directory

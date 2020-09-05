@@ -1,41 +1,29 @@
 extern "C" {
 
+#include <stdio.h>
 #include "os_be.h"
 #include "etc.h"
 #include "eingabe.h"
 #include "log.h"
 
-char  c_n[8][8] = {
-      "Schwarz",
-      "Rot",
-      "Grün",
-      "Gelb",
-      "Blau",
-      "Orange",
-      "Türkis",
-      "Weiß" };
-
 t_button  button[BEFEHLE];
 
 void hole_button() {
   FILE  *datei;
-  int  i = 0;
   char  tmp[21];
-  int   l;
 
   char *eingabe = makePathFromEnvAndName( "OS","os.init" );
   if (!(datei = fopen(eingabe,"rt")) )
     fehler("Kann Datei os.init nicht einlesen !");
   free(eingabe);
 
-  for (i=0;i<BEFEHLE;i++)
-  {
-    fgets(button[i].name,10,datei);
-    if (!button[i].name[0])
+  for ( int i=0 ; i<BEFEHLE ; i++ ) {
+    fgets( button[i].name,10,datei );
+    int l = strlen(button[i].name);
+    if ( l==0 ) {
       break;
-    l = strlen(button[i].name) - 1;
-    if (l>=0)
-      button[i].name[l] = '\0';
+    }
+    button[i].name[l-1] = '\0';
 
     fgets(tmp,20,datei);  button[i].vc = atoi(tmp);
     fgets(tmp,20,datei);  button[i].hc = atoi(tmp);
@@ -52,8 +40,7 @@ void speicher_button() {
     fehler("Kann Datei os.init nicht oeffnen !");
   free(eingabe);
 
-  for (i=0;i<BEFEHLE;i++)
-  {
+  for ( int i=0 ; i<BEFEHLE ; i++ ) {
     fprintf(datei,"%s\n",button[i].name);
     fprintf(datei,"%d\n",button[i].vc);
     fprintf(datei,"%d\n",button[i].hc);
@@ -71,29 +58,22 @@ void drucke_button_all(WINDOW *w) {
 }
 
 void drucke_button(int flg,WINDOW *w,int x) {
-  int  p,y;
-
-  p = x;
+  int p = x;
   x *= 10;
 
-  for (y=0;y<4;y++)
-  {
+  for ( int y=0 ; y<4 ; y++ ) {
     if (p>=BEFEHLE)
       break;
 
-    if (strlen(button[p].name)>0)
-      if (flg)
-      {
+    if ( strlen(button[p].name) ) {
+      if (flg) {
         blinkcolor(w,button[p].vc,button[p].hc);
         mvwprintw(w,y,x,"<%-8s>",button[p].name);
-      }
-      else
-      {
+      } else {
         highcolor(w,button[p].vc,button[p].hc);
         mvwprintw(w,y,x,"[%-8s]",button[p].name);
       }
-    else
-    {
+    } else {
       highcolor(w,COLOR_RED,COLOR_BLACK);
       mvwprintw(w,y,x,"          ");
     }

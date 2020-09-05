@@ -1,3 +1,4 @@
+#include "controller.h"
 extern "C" {
 
 #include "os_dir.h"
@@ -77,30 +78,29 @@ void hole_dateien(t_dir *d,char *pfad) {
   DIR  *dirp;
   struct  dirent *dp;
   int  i;
-  struct  stat  stat_buf;
-  struct  passwd  *pw_buf;
-  struct  group  *gr_buf;
-  struct  tm  *tm_buf;
-  char  rechte[11];
+  struct stat    stat_buf;
+  struct passwd *pw_buf;
+  struct group  *gr_buf;
+  struct tm     *tm_buf;
+  char   rechte[11];
 
   chdir(pfad);
   getcwd(d->akt_dir,510);
 
-  for ( i=0 ; i<d->anz ; i++ )
+  for ( i=0 ; i<d->anz ; i++ ) {
     xfree( d->e[i].name );
+  }
 
   dirp = opendir( pfad );
 
   i = 0;
 
-  while ( (dp = readdir( dirp )) != NULL )
-  {
+  while ( (dp = readdir( dirp )) != NULL ) {
     (void)stat (dp->d_name,&stat_buf);  /* liefert int */
 
-    if ( S_ISDIR((ushort)stat_buf.st_mode) )
+    if ( S_ISDIR((ushort)stat_buf.st_mode) ) {
       d->e[i].dir = 'd';
-    else
-    {
+    } else {
       d->e[i].dir = ' ';
       if ( strlen(d->filter)>0 )
         if (!match(dp->d_name,d->filter))
@@ -120,20 +120,13 @@ void hole_dateien(t_dir *d,char *pfad) {
     strcpy(d->e[i].name,dp->d_name);
 
     strcpy(rechte,"----------");
-    if (d->e[i].dir=='d')
-      rechte[0]='d';
-    else if (S_ISBLK(stat_buf.st_mode))
-      rechte[0]='b';
-    else if (S_ISCHR(stat_buf.st_mode))
-      rechte[0]='c';
-    else if (S_ISFIFO(stat_buf.st_mode))
-      rechte[0]='f';
-    //else if (S_ISNAM(stat_buf.st_mode))
-      //rechte[0]='p';
-    else if (S_ISLNK(stat_buf.st_mode))
-      rechte[0]='l';
-    else if (S_ISFIFO(stat_buf.st_mode))
-      rechte[0]='s';
+    if (d->e[i].dir=='d') rechte[0]='d';
+    else if ( S_ISBLK(stat_buf.st_mode)) rechte[0]='b';
+    else if ( S_ISCHR(stat_buf.st_mode)) rechte[0]='c';
+    else if (S_ISFIFO(stat_buf.st_mode)) rechte[0]='f';
+  //else if ( S_ISNAM(stat_buf.st_mode)) rechte[0]='p';
+    else if ( S_ISLNK(stat_buf.st_mode)) rechte[0]='l';
+    else if (S_ISFIFO(stat_buf.st_mode)) rechte[0]='s';
 
     if ((stat_buf.st_mode & S_IRUSR)==S_IRUSR ) rechte[1]='r';
     if ((stat_buf.st_mode & S_IWUSR)==S_IWUSR ) rechte[2]='w';
@@ -450,7 +443,9 @@ void move_dateien(int nr) {
 
     flg_int = 0;
 
+    mutexUnlock();
     t = wgetch(win[nr]);
+    mutexLock();
 
     if (0)
       mvwprintw(func,1,1,"%d",t);wrefresh(func);

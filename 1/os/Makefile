@@ -26,7 +26,7 @@ os: $(OS_OBJ)
 	$(CC) $(CFLAGS) -o os $(OS_OBJ) $(OS_OBJA) $(LIBS)
 
 clear:
-	rm -f *.o os;
+	rm -f *.o
 
 cleanall: 
 	rm -f *.o os; \

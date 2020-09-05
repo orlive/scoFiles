@@ -6,12 +6,24 @@ extern "C" {
 #include "log.h"
 }
 
+std::mutex cursesMutex;
+
+void mutexLock() {
+	cursesMutex.lock();
+}
+
+void mutexUnlock() {
+	cursesMutex.unlock();
+}
+
 void checkSize() {
   int oldX = getmaxx(stdscr);
   int oldY = getmaxy(stdscr);
   int x,y;
 
   while (1) {
+    mutexLock();
+
     x = getmaxx(stdscr);
     y = getmaxy(stdscr);
 
@@ -34,6 +46,7 @@ void checkSize() {
       os_refresh_all();
     }
 
+    mutexUnlock();
     std::this_thread::sleep_for( std::chrono::seconds(1) );
 
     oldX = x;
