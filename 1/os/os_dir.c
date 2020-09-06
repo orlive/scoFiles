@@ -264,7 +264,7 @@ void move_dateien(int nr) {
         os_refresh_all();
         break;
       case 2:      /* ^B */
-        edit("/usr/oli/src/c/os/rm1");
+        edit("/Users/oli/Programmierung/scoFiles/1/os/rm1");
         os_refresh_all();
         break;
       case 1:      /* ^A */
@@ -700,7 +700,7 @@ int hole_directory(int nr,char *tmp) {
     w_clear(w);
     box(w,0,0);
 
-    mvwprintw(w,0,2,"[ Wechsle zu Verzeichnis ]");
+    mvwprintw(w,0,2,"[ Wechsel zu Verzeichnis ]");
     wrefresh(w);
 
     highcolor(w,COLOR_WHITE,COLOR_BLACK);
@@ -746,12 +746,12 @@ void os_hilfe() {
   w_clear(w);
   box(w,0,0);
 
-  mvwprintw(w,0,2,"[ Hifle zu OS ]");
+  mvwprintw(w,0,2,"[ Hilfe zu OS ]");
 
   mvwprintw(w,2,2,"F1  = Hilfe");
   mvwprintw(w,3,2,"F2  = Dateienauswahl");
   mvwprintw(w,4,2,"F3  = Sortierung");
-  mvwprintw(w,5,2,"F4  = Wechsle zu Verzeichnis");
+  mvwprintw(w,5,2,"F4  = Wechsel zu Verzeichnis");
   mvwprintw(w,6,2,"F5  = Befehl editieren");
   mvwprintw(w,7,2,"F6  = Alle Dateien markieren");
 

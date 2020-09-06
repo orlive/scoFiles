@@ -46,7 +46,8 @@ typedef  struct  {
 
 typedef struct {
   char name[9];       // name des befehls
-  int  hc,vc;         // vorder-, hintergrundfarbe
+  int  hc;            // Hintergrundfarbe       
+  int  vc;            // Vordergrundfarbe
 } t_button;
 
 #ifdef  NOEXTERN 
@@ -55,24 +56,25 @@ typedef struct {
 #define EXTERN extern
 #endif
 
-EXTERN int  flg_int;
-EXTERN int  flg_quit;
-EXTERN WINDOW *win[2],*func;
-EXTERN t_dir  d[2];
+EXTERN int flg_int;
+EXTERN int flg_quit;
+EXTERN WINDOW *win[2];
+EXTERN WINDOW *func;
+EXTERN t_dir d[2];
 
 #undef NOEXTERN
 #undef EXTERN
 
-void os_usage( );
-void os_init_dir( );
+void os_usage();
+void os_init_dir();
 void os_init_dir2( int nr );
 int os_finde_name( t_dir *d , char *name );
-void os_init( );
-void os_get_old( );
-void os_set_old( );
-void os_wininit( );
-void os_uninit( );
-void os_refresh_all( );
-void os_int_stop( );
+void os_init();
+void os_get_old();
+void os_set_old();
+void os_wininit();
+void os_uninit();
+void os_refresh_all();
+void os_int_stop();
 
 #endif

@@ -4,16 +4,10 @@ extern "C" {
 #include <curses.h>
 #include <string.h>
 #include <unistd.h>
+#include "edit.h"
+#include "etc.h"
 
-void edit( char *dateiname );
-void draw_txt( WINDOW *w );
-void load_txt( WINDOW *w,char *dateiname );
-
-extern void highcolor(WINDOW *w,int vc,int hc);
-extern void w_clear(WINDOW *w);
-extern void fehler(char *message);
-
-char  txt[10][80];
+char txt[10][80];
 int  txt_cnt;
 
 void edit( char *dateiname ) {
