@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 FILE    *datei_read;
 FILE    *datei_write;
@@ -17,12 +18,19 @@ int     wa_anz=0;
 char    ws_nr=0;
 char    wa_nr=0;
 
+void hole_felder( char zeile[] );
+void hole_attrib( char zeile[] );
+void fehler( char meldung[] );
+int finde_cmp( char zeile[],char str[] );
+int finde( char zeile[],char str[] );
+void fehler( char meldung[] );
+void strlwr( char *str );
 
 int main(int u1,char *u2[])	{
-	char    *test;
-	char    *test2;
-	char    zeile[100];
-	char	b;
+	char *test;
+	char *test2;
+	char zeile[100];
+	char b;
 	int	i;
 
 	if( u1<=1 )
@@ -84,38 +92,32 @@ int main(int u1,char *u2[])	{
 		printf("\nWARNUNG: Mehr ATTRIBUTE-Felder als SCREEN-Felder!\n");
 	}
 
-hole_felder( char zeile[] )
-	{
+void hole_felder( char zeile[] ) {
 	int     i;
 	char    b;
 
-	for( i=0 ; i<strlen(zeile) ; i++ )
-		{
+	for( i=0 ; i<strlen(zeile) ; i++ ) {
 		b = zeile[i];
 
-		switch( b )
-			{
+		switch( b ) {
 			case '[':
-				if ( f_bild==1 )
-					{
+				if ( f_bild==1 ) {
 					f_ein=1;
 					ws_nr=0;
-					}
+			  }
 				break;
 			case ']':
-				if( f_ein )
-					{
+				if( f_ein ) {
 					ws_anz++;
 					ws_nr=0;
-					}
+				}
 				f_ein=0;
 				break;
 			case '|':
-				if( f_ein )
-					{
+				if( f_ein ) {
 					ws_anz++;
 					ws_nr=0;
-					}
+				}
 				break;
 			case '{':
 				if( f_bild==0)
@@ -126,51 +128,44 @@ hole_felder( char zeile[] )
 				break;
 			}
 
-		if( f_ein )
-			{
-			if( b!=' ' && b!='\t' && b!='[' && b!='|' && ws_nr<8 )
-				{
+		if( f_ein ) {
+			if( b!=' ' && b!='\t' && b!='[' && b!='|' && ws_nr<8 ) {
 				werte_screen[ws_anz][ws_nr]=b;
 				ws_nr++;
 				werte_screen[ws_anz][ws_nr]='\0';
-				}
 			}
 		}
 	}
+}
 
-hole_attrib( char zeile[] )
-	{
+void hole_attrib( char zeile[] ) {
 	int     i;
 	char    b;
 	char    f_gleich=0;
 
 	wa_nr = 0;
 
-	for( i=0 ; i<strlen(zeile) ; i++ )
-		{
+	for( i=0 ; i<strlen(zeile) ; i++ ) {
 		b = zeile[i];
 
-		switch( b )
-			{
+		switch( b ) {
 			case '=':
 				if( f_gleich==0 )
 					f_gleich=1;
 				else
-					if( f_gleich==1 )
-						{
+					if( f_gleich==1 ) {
 						f_gleich=2;
 						wa_anz++;
-						}
+					}
 				break;
 			case ';':
 			case ',':
-				if( f_gleich==1 )
-					{
+				if( f_gleich==1 ) {
 					f_gleich=2;
 					wa_anz++;
-					}
+				}
 				break;
-			}
+		}
 
 		if( f_gleich )
 			if( b!='\t' && b!=' ' && b!='=' && wa_nr<30)
@@ -179,34 +174,30 @@ hole_attrib( char zeile[] )
 				wa_nr++;
 				werte_attrib[wa_anz][wa_nr]='\0';
 				}
-		}
+	}
 
-	if( f_gleich==2 ) /* d.h. hier wurde eine tab.row gefunden */
-		{
-		for( i=0 ; i<strlen(zeile) ; i++ )
-			{
+	if( f_gleich==2 ) { /* d.h. hier wurde eine tab.row gefunden */
+		for( i=0 ; i<strlen(zeile) ; i++ ) {
 			b = zeile[i];
 
 			if( b==' ' || b=='\t' || b=='=' )
 				zeile[i]='\0';
-			}
+		}
 
 		strlwr( zeile );
 
 		for( i=0 ; i<ws_anz ; i++ )
-			if( finde_cmp( werte_screen[i],zeile ) )
-				{
+			if( finde_cmp( werte_screen[i],zeile ) ) {
 				/*
 				printf("\t\t%s,%s\n",werte_screen[i],zeile );
 				*/
 				werte_attrib_nr[i]=wa_anz-1;
-				}
-		}
+			}
 	}
+}
 
 
-finde_cmp( char zeile[],char str[] )
-	{
+int finde_cmp( char zeile[],char str[] ) {
 	char    zeile2[100];
 
 	strcpy( zeile2,zeile );
@@ -216,10 +207,9 @@ finde_cmp( char zeile[],char str[] )
 		return(1);
 	else
 		return(0);
-	}
+}
 
-finde( char zeile[],char str[] )
-	{
+int finde( char zeile[],char str[] ) {
 	char    zeile2[100];
 
 	strcpy( zeile2,zeile );
@@ -229,18 +219,17 @@ finde( char zeile[],char str[] )
 		return(1);
 	else
 		return(0);
-	}
-fehler( char meldung[] )
-	{
+}
+
+void fehler( char meldung[] ) {
 	printf("\n\n%s...\n\n",meldung);
 	exit(1);
-	}
+}
 
-strlwr( char *str )
-	{
+void strlwr( char *str ) {
 	int	i;
 	
 	for( i=0 ; i<strlen(str) ; i++ )
 		if( str[i]>='A' && str[i]<='Z' )
 			str[i]+=32;
-	}
+}
