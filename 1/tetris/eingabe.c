@@ -9,19 +9,19 @@ void input(WINDOW* w,int y,int x,int l,char* str) {
 	int	pos = 0;
 
 	str[l] = '\0';
-	while(strlen(str)<l)
+	while (strlen(str)<l)
 		strcat(str," ");
 
 	nodelay(w,TRUE);
 	keypad(w,TRUE);
 
-	while(tue) {
+	while (tue) {
 		mvwprintw(w,y,x,"%s",str);
 		wrefresh(w);
 
-		while((t=mvwgetch(w,y,x+pos))==EOF);
+		while ((t=mvwgetch(w,y,x+pos))==EOF);
 
-		switch(t) {
+		switch (t) {
 			case '\n':
 				tue = FALSE;
 				break;
@@ -32,15 +32,15 @@ void input(WINDOW* w,int y,int x,int l,char* str) {
 				pos++;
 				break;
 			default:
-				if( (t>='a' && t<='z') || (t>='A' && t<='Z')
+				if ( (t>='a' && t<='z') || (t>='A' && t<='Z')
 						|| (t>='0' && t<='9') 
 						|| strchr(":;., ",t) )
 					str[pos++] = t;
 		}
 
-		if(pos<0)
+		if (pos<0)
 			pos = 0;
-		else if(pos>=l)
+		else if (pos>=l)
 			pos = l-1;
 	}
 }

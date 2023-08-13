@@ -28,7 +28,7 @@ void w_clear(WINDOW *w)
 	tmp[x-2] = '\0';
 
 	y--;
-	for(i=1;i<y;i++)
+	for (i=1;i<y;i++)
 		mvwprintw(w,i,1,"%s",tmp);
 }
 void highscore(t_score *score)
@@ -37,12 +37,12 @@ void highscore(t_score *score)
 	t_highscore	tab[10];
 	int		i;
 
-	if( !highscore_load(&tab[0]) )
+	if ( !highscore_load(&tab[0]) )
 		return;
 
 	hs = newwin(16,66,6,7);		/* Info Fenster */
 
-	if(COLOR_PAIRS>-1)
+	if (COLOR_PAIRS>-1)
 		wattron(hs,COLOR_PAIR(5));
 	else
 		wattron(hs,A_REVERSE);
@@ -59,15 +59,14 @@ void highscore(t_score *score)
 
 	highscore_draw(hs,&tab[0]);
 
-	if(!score)
-		while(wgetch(hs)==ERR);
+	if (!score)
+		while (wgetch(hs)==ERR);
 	else
-		for(i=0;i<10;i++)
-			if(score->points > tab[i].points)
-			{
+		for (i=0;i<10;i++)
+			if (score->points > tab[i].points) {
 				char	datum[16];
 					
-				if(i<9)
+				if (i<9)
 					memmove(&tab[i+1].name,
 						&tab[i].name,
 						sizeof(t_highscore)*(9-i));
@@ -95,7 +94,7 @@ void highscore_draw(WINDOW *hs,t_highscore *tab)
 {
 	int	i;
 
-	for(i=0;i<10;i++)
+	for (i=0;i<10;i++)
 		mvwprintw(hs,i+4,2,"%2d) %-20s %-15s %6d %6d %6d",
 					i+1,
 					tab[i].name,
@@ -114,15 +113,15 @@ int highscore_load(t_highscore *tab)
 
 	ptr = (char*)getenv("TETRIS");
 
-	if(!ptr)
+	if (!ptr)
 		return 0;
 
 	datei = fopen(ptr,"r");
-	if(!datei)
+	if (!datei)
 		highscore_creat(&tab[0]);
 	else
 	{
-		if( fread(&tab[0],1,sizeof(t_highscore)*10,datei)
+		if ( fread(&tab[0],1,sizeof(t_highscore)*10,datei)
 				!= sizeof(t_highscore)*10 )
 			highscore_creat(&tab[0]);
 
@@ -139,7 +138,7 @@ void highscore_save(t_highscore *tab)
 
 	ptr = (char*)getenv("TETRIS");
 
-	if(!ptr)
+	if (!ptr)
 		return;
 
 	datei = fopen(ptr,"w");
@@ -153,8 +152,7 @@ void highscore_creat(t_highscore *tab)
 {
 	int	i;
 
-	for(i=0;i<10;i++)
-	{
+	for (i=0;i<10;i++) {
 		sprintf(tab[i].name,"Mister %2d",i);
 		sprintf(tab[i].datum,"21.05.95, 00:49");
 		tab[i].lines = 0;
@@ -179,7 +177,7 @@ void get_time(char *ptr)
 
 	zeitptr[7] = '\0';		/* MONAT */
 	sprintf(&ptr[3],"%2d.",(finde(monate,&zeitptr[4])+3)/3);
-	if(ptr[3]==' ')
+	if (ptr[3]==' ')
 		ptr[3]='0';
 
 	ptr[6] = zeitptr[22];		/* JAHR */

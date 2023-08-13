@@ -53,7 +53,7 @@ int main(int argc,char **argv)
   char    h_flg;
 
   while ( (t = getopt(argc,argv, "l:x:y:m")) != -1)  {
-    switch(t) {
+    switch (t) {
       case 'l':
         level = atoi(optarg);
         break;
@@ -72,26 +72,25 @@ int main(int argc,char **argv)
     }
   }
 
-  if(level<1 || level>10)
+  if (level<1 || level>10)
     level = 1;
 
-  if(y>9 && y<21)
+  if (y>9 && y<21)
     dimy = y;
   else
     dimy = 20;
 
-  if(x>9 && x<47)
+  if (x>9 && x<47)
     dimx = x;
   else
     dimx = 20;
 
   init();
 
-  if(mono)
+  if (mono)
     COLOR_PAIRS = -1;
 
-  for(;!strchr("nN",t);)
-  {
+  for (;!strchr("nN",t);) {
     clear();
     box(winh,0,0);
     getmaxyx(winh,y,x);
@@ -116,21 +115,18 @@ int main(int argc,char **argv)
     mvwprintw(winh,y,2,"< Spiel Ende ! Neues Spiel (j/n) ? >");
     wrefresh(winh);
 
-    for(t=ERR;!strchr("jJnN",t);t=wgetch(winh))
-      switch(t)
-      {
+    for (t=ERR;!strchr("jJnN",t);t=wgetch(winh))
+      switch (t) {
       case ERR:
         break;
       default:
-        if(h_flg)
-        {
+        if (h_flg) {
           h_flg = 0;
           refresh_all();
           wmove(winh,y,34);
           break;
         }
-        if(strchr("hH",t))
-        {
+        if (strchr("hH",t)) {
           h_flg = 1;
           highscore(&score);
           wmove(winh,y,34);
@@ -164,19 +160,18 @@ void haupt(t_score *score)
   long  delay    = ZEIT;
 
   intervall = delay = ZEIT - (score->level-1)*ZEIT_SCHRITT;
-  if(intervall<10)
+  if (intervall<10)
     intervall=delay=10;
 
   tt = times(&tbuf) + delay;
   t  = 0;        /* eingabe  initialisieren */
 
-  for(i=0;i<dimy;i++)
+  for (i=0;i<dimy;i++)
     strcpy(scr[i],leer_linie);
 
   creat_figur(0,&next_figur);
 
-  while(1)
-  {
+  while (1) {
     mvwprintw(win1,1,1,"Level :%6d",score->level);
     mvwprintw(win1,2,1,"Linien:%6d",score->lines);
     mvwprintw(win1,3,1,"Punkte:%6d",score->points);
@@ -185,7 +180,7 @@ void haupt(t_score *score)
     memcpy(&figur,&next_figur,sizeof(figur));
     memcpy(&old_figur,&figur,sizeof(figur));
 
-    for(i=0;i<4;i++)
+    for (i=0;i<4;i++)
       mvwprintw(win4,2+i,2,"        ");
 
     creat_figur(0,&next_figur);
@@ -198,24 +193,20 @@ void haupt(t_score *score)
 
     tt  = times(&tbuf) + delay;
 
-    while(1)
-    {
-      if(tt<=times(&tbuf))
-      {
+    while (1) {
+      if (tt<=times(&tbuf)) {
         tt = times(&tbuf) + delay;
 
         figur.y++;
-        if(!chk_figur(&figur))
-        {
+        if (!chk_figur(&figur)) {
           figur.y--;
-          if(figur.y==1)  /* neue figur */
+          if (figur.y==1)  /* neue figur */
             return;
           break;
         }
       }
 
-      if( memcmp(&old_figur,&figur,sizeof(figur)) )
-      {
+      if ( memcmp(&old_figur,&figur,sizeof(figur)) ) {
         draw_figur(0,win3,&old_figur,
             old_figur.y,old_figur.x);
         draw_figur(1,win3,&figur,figur.y,figur.x);
@@ -224,31 +215,30 @@ void haupt(t_score *score)
 
       memcpy(&old_figur,&figur,sizeof(figur));
 
-      switch(t)
-      {
+      switch (t) {
       case DREHEN:
       case KEY_UP:
         figur.pos = figur.pos==3 ? 0 : figur.pos+1;
-        if(!chk_figur(&figur))
+        if (!chk_figur(&figur))
           figur.pos = old_figur.pos;
         break;
       case RECHTS:
       case KEY_RIGHT:
         figur.x+=2;
-        if(!chk_figur(&figur))
+        if (!chk_figur(&figur))
           figur.x = old_figur.x;
         break;
       case LINKS:
       case KEY_LEFT:
         figur.x-=2;
-        if(!chk_figur(&figur))
+        if (!chk_figur(&figur))
           figur.x = old_figur.x;
         break;
       case KEY_DOWN:
       case SPEED:
         do
           t=wgetch(winh);
-        while(t!=ERR);
+        while (t!=ERR);
         delay = 0;
         tt = times(&tbuf) + delay;
         break;
@@ -259,7 +249,7 @@ void haupt(t_score *score)
         wrefresh(win2);
         do
           t=wgetch(winh);
-        while(t==ERR);
+        while (t==ERR);
         mvwprintw(win2,2,5,"       ");
         wrefresh(win2);
         break;
@@ -281,11 +271,11 @@ void haupt(t_score *score)
         break;
       }
 
-      if( t>0 && t!=SPEED )    /* Fall gebremst ! */
+      if ( t>0 && t!=SPEED )    /* Fall gebremst ! */
         delay = intervall;
 
       t = wgetch(winh);
-      if(t==ERR)
+      if (t==ERR)
         t = 0;
     }
     binde_figur(&figur);
@@ -294,14 +284,14 @@ void haupt(t_score *score)
     finde_linie(0,score);
 
     intervall = delay = ZEIT - (score->level-1)*ZEIT_SCHRITT;
-    if(intervall<10)
+    if (intervall<10)
       intervall=delay=10;
   }
 }
 
 void creat_figur(char flg,t_figur *f)
 {
-    if(flg)
+    if (flg)
       f->nr = AF;
     else
       f->nr = rnd(AF);
@@ -316,17 +306,15 @@ void finde_linie(int flg,t_score *score)
   int  i,u;
   char  ja;
 
-  for(i=dimy-1;i>=0;i--)
-  {
+  for (i=dimy-1;i>=0;i--) {
     ja = 1;
-    for(u=0;u<dimx;u+=2)
-      if(scr[i][u]!=VOLL_ZEICHEN[0])
-      {
+    for (u=0;u<dimx;u+=2)
+      if (scr[i][u]!=VOLL_ZEICHEN[0]) {
         ja=0;
         break;
       }
 
-    if(  ja
+    if (  ja
       ||
       (flg && strcmp(scr[i],leer_linie))  )
     {
@@ -336,7 +324,7 @@ void finde_linie(int flg,t_score *score)
       strcpy(scr[i],leer_linie);
       draw_scr();
       wrefresh(win3);
-      for(u=i;u>0;u--)
+      for (u=i;u>0;u--)
         strcpy(scr[u],scr[u-1]);
       strcpy(scr[0],leer_linie);
       draw_scr();
@@ -350,20 +338,15 @@ void draw_scr()
 {
   int  i,u;
 
-  for(i=0;i<dimy;i++)
-  {
+  for (i=0;i<dimy;i++) {
     wmove(win3,i+1,1);
-    for(u=0;u<dimx;u+=2)
-      if(scr[i][u]=='[')
-      {
-        if(COLOR_PAIRS>-1)
-        {
+    for (u=0;u<dimx;u+=2)
+      if (scr[i][u]=='[') {
+        if (COLOR_PAIRS>-1) {
           wattron(win3,COLOR_PAIR(scr[i][u+1]));
           wprintw(win3,"  ");
           wattroff(win3,COLOR_PAIR(scr[i][u+1]));
-        }
-        else
-        {
+        } else {
           wattron(win3,A_REVERSE);
           wprintw(win3,"  ");
           wattroff(win3,A_REVERSE);
@@ -378,21 +361,16 @@ void draw_figur(char flg,WINDOW *w,t_figur *f,int y,int x)
 {
   int i,u;
 
-  for(i=0;i<4;i++)
-    for(u=0;u<8;u+=2)
-      if(fig[f->nr][f->pos][i][u]!=' ')
-      {
+  for (i=0;i<4;i++)
+    for (u=0;u<8;u+=2)
+      if (fig[f->nr][f->pos][i][u]!=' ') {
         wmove(w,y+i+1,x+u+1);
-        if(flg)
-        {
-          if(COLOR_PAIRS>-1)
-          {
+        if (flg) {
+          if (COLOR_PAIRS>-1) {
             wattron(w,COLOR_PAIR(f->farbe));
             wprintw(w,"  ");
             wattroff(w,COLOR_PAIR(f->farbe));
-          }
-          else
-          {
+          } else {
             wattron(w,A_REVERSE);
             wprintw(w,"  ");
             wattroff(w,A_REVERSE);
@@ -413,7 +391,7 @@ int chk_figur(t_figur *f)
   for (i=0;i<4;i++) {
     for (u=0;u<8;u+=2) {
       if (fig[f->nr][f->pos][i][u]!=' ') {
-        if( f->y+i > dimy-1  || f->x+u > dimx-1
+        if ( f->y+i > dimy-1  || f->x+u > dimx-1
         ||  f->y+i < 0    || f->x+u < 0 ) {
           return 0;
         } else {
@@ -434,7 +412,7 @@ void binde_figur(t_figur *f)
   for (i=0;i<4;i++) {
     for (u=0;u<8;u+=2) {
       if (fig[f->nr][f->pos][i][u]!=' ') {
-        if( f->y+i > dimy-1  || f->x+u > dimx-1
+        if ( f->y+i > dimy-1  || f->x+u > dimx-1
         ||  f->y+i < 0    || f->x+u < 0 ) {
           exit(1);
         } else {
@@ -455,14 +433,13 @@ void init()
 {
   int  i;
 
-  if( signal(SIGINT,SIG_IGN) != SIG_IGN )
+  if ( signal(SIGINT,SIG_IGN) != SIG_IGN )
     signal( SIGINT,uninit );
 
   leer_linie[0] = '\0';
   voll_linie[0] = '\0';
 
-  for(i=0;i<dimx/2;i++)
-  {
+  for (i=0;i<dimx/2;i++) {
     strcat(leer_linie,LEER_ZEICHEN);
     strcat(voll_linie,VOLL_ZEICHEN);
   }
