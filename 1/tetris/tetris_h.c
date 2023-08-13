@@ -3,12 +3,21 @@
 #include <curses.h>
 #include <sys/types.h>
 #include <time.h>
+#include <string.h>
+#include <stdlib.h>
 #include "tetris.h"
+
+extern void input(WINDOW* w,int y,int x,int l,char* str);
+extern int finde(char *s1,char *s2);
 
 // Deklarations 
 void highscore_save(t_highscore *tab);
+int highscore_load(t_highscore *tab);
+void highscore_creat(t_highscore *tab);
+void highscore_draw(WINDOW *hs,t_highscore *tab);
+void get_time(char *ptr);
 
-w_clear(WINDOW *w)
+void w_clear(WINDOW *w)
 {
 	int	x,y;
 	int	i;
@@ -71,7 +80,7 @@ void highscore(t_score *score)
 				highscore_draw(hs,&tab[0]);
 				(void)echo();
 				nodelay(hs,FALSE);
-				input(hs,i+4,6,20,&tab[i].name);
+				input(hs,i+4,6,20,(char*)&tab[i].name);
 				/*mvwscanw(hs,i+4,6,"%20s\n",&tab[i].name);*/
 				nodelay(hs,TRUE);
 				(void)noecho();
@@ -82,7 +91,7 @@ void highscore(t_score *score)
 	delwin(hs);
 }
 
-highscore_draw(WINDOW *hs,t_highscore *tab)
+void highscore_draw(WINDOW *hs,t_highscore *tab)
 {
 	int	i;
 
@@ -140,7 +149,7 @@ void highscore_save(t_highscore *tab)
 	fclose(datei);
 }
 
-highscore_creat(t_highscore *tab)
+void highscore_creat(t_highscore *tab)
 {
 	int	i;
 
@@ -154,7 +163,7 @@ highscore_creat(t_highscore *tab)
 	}
 }
 
-get_time(char *ptr)
+void get_time(char *ptr)
 {
 	time_t	zeit;
 	char	*zeitptr;

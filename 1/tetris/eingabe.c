@@ -3,11 +3,7 @@
 #include <string.h>
 #include "tetris.h"
 
-input(w,y,x,l,str)
-	WINDOW	*w;
-	int	y,x,l;
-	char	*str;
-{
+void input(WINDOW* w,int y,int x,int l,char* str) {
 	int	t;
 	int	tue = TRUE;
 	int	pos = 0;
@@ -19,15 +15,13 @@ input(w,y,x,l,str)
 	nodelay(w,TRUE);
 	keypad(w,TRUE);
 
-	while(tue)
-	{
+	while(tue) {
 		mvwprintw(w,y,x,"%s",str);
 		wrefresh(w);
 
 		while((t=mvwgetch(w,y,x+pos))==EOF);
 
-		switch(t)
-		{
+		switch(t) {
 			case '\n':
 				tue = FALSE;
 				break;
@@ -49,5 +43,4 @@ input(w,y,x,l,str)
 		else if(pos>=l)
 			pos = l-1;
 	}
-	
 }

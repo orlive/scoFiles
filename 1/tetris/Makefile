@@ -1,5 +1,5 @@
 CC=cc
-CFLAGS=-DNDEBUG -Wimplicit-function-declaration
+CFLAGS=-DNDEBUG -Wimplicit-function-declaration -Wincompatible-pointer-types
 
 LIBS =	-lcurses -lc
 
@@ -8,6 +8,10 @@ PROGS = \
 
 make:
 	@make $(PROGS)
+
+cleanall:
+	@rm *.o; make
+
 
 #==============================================================================#
 
