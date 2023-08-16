@@ -1,7 +1,7 @@
 CC=cc
 CFLAGS=-DNDEBUG
 
-LIBS = -lcurses -lc_s -nointl
+LIBS = -lcurses
 
 less: less.c
 	$(CC) $(CFLAGS) -o less less.c $(LIBS)
