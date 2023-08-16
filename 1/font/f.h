@@ -1,0 +1,11 @@
+void FontHaupt(void);
+void FontInit(void);
+void FontUninit(void);
+void FontWahl(void);
+void FontEdit(int nr);
+void FontLaden(void);
+void FontSpeichern(void);
+void FontDrawOne(int nr);
+void FontDrawAll(void);
+void FontExit(char *str);
+void FontVidi(void);
