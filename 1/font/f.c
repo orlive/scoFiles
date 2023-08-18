@@ -12,53 +12,41 @@ char  datei[256];
 unsigned char  font[4096];
 unsigned char  bit[8] = { 128,64,32,16,8,4,2,1 };
 
-int main(int argc,char **argv)
-{
+int main(int argc,char **argv) {
   int  i,u;
 
   if ( argc==1 )
     exit(1);
 
   strcpy(datei,argv[1]);
-
   FontInit();
-
   FontHaupt();
-
   FontUninit();
 
   return 0;
 }
 
-void FontInit(void)
-{
+void FontInit(void) {
   hw = initscr();
   (void) noecho();
   (void) keypad(hw,TRUE);
 }
 
-void FontUninit(void)
-{
+void FontUninit(void) {
   (void) echo();
   (void) endwin();
   exit(1);
 }
 
-void FontHaupt(void)
-{
+void FontHaupt(void) {
   FontLaden();
-
   FontVidi();
-
   FontDrawAll();
-
   FontWahl();
-
   FontSpeichern();
 }
 
-void FontWahl(void)
-{
+void FontWahl(void) {
   int  x,y;
   int  t;
 
@@ -82,18 +70,10 @@ void FontWahl(void)
     mvwaddch( hw , y + 1 , x*2 + 22 , ' ' );
 
     switch (t) {
-      case KEY_DOWN:
-        y++;
-        break;
-      case KEY_UP:
-        y--;
-        break;
-      case KEY_LEFT:
-        x--;
-        break;
-      case KEY_RIGHT:
-        x++;
-        break;
+      case KEY_DOWN:  y++; break;
+      case KEY_UP:    y--; break;
+      case KEY_LEFT:  x--; break;
+      case KEY_RIGHT: x++; break;
       case '\n':
         FontEdit(y*16+x);
         FontSpeichern();
@@ -106,15 +86,14 @@ void FontWahl(void)
   
 }
 
-void FontEdit(int nr)
-{
+void FontEdit(int nr) {
   int  x,y;
   int  t;
   unsigned char  a;
 
   x = y = 0;
 
-  do{
+  do {
 
     if ( x<0 ) x=7;
     if ( x>7 ) x=0;
@@ -134,18 +113,10 @@ void FontEdit(int nr)
     t = getch();
 
     switch (t) {
-      case KEY_DOWN:
-        y++;
-        break;
-      case KEY_UP:
-        y--;
-        break;
-      case KEY_LEFT:
-        x--;
-        break;
-      case KEY_RIGHT:
-        x++;
-        break;
+      case KEY_DOWN:  y++; break;
+      case KEY_UP:    y--; break;
+      case KEY_LEFT:  x--; break;
+      case KEY_RIGHT: x++; break;
       case ' ':
         a = font[nr*16+y];
         if ( (a & bit[x]) == bit[x] )
@@ -160,8 +131,7 @@ void FontEdit(int nr)
   
 }
 
-void FontLaden(void)
-{
+void FontLaden(void) {
   FILE  *d;
 
   if ( !(d=fopen(datei,"r")) )
@@ -173,8 +143,7 @@ void FontLaden(void)
   fclose(d);
 }
 
-void FontSpeichern(void)
-{
+void FontSpeichern(void) {
   FILE  *d;
 
   if ( !(d=fopen(datei,"w")) )
@@ -186,8 +155,7 @@ void FontSpeichern(void)
   fclose(d);
 }
 
-void FontDrawOne(int nr)
-{
+void FontDrawOne(int nr) {
   int  u,i,t;
   unsigned char  a;
 
@@ -202,8 +170,7 @@ void FontDrawOne(int nr)
   }
 }
 
-void FontDrawAll(void)
-{
+void FontDrawAll(void) {
   int  i,x,y;
 
   x = 1;
@@ -221,14 +188,12 @@ void FontDrawAll(void)
   }
 }
 
-void FontExit(char *str)
-{
+void FontExit(char *str) {
   fprintf(stderr,"%s\n",str);
   FontUninit();
 }
 
-void FontVidi(void)
-{
+void FontVidi(void) {
   char  tmp[500];
 
   sprintf(tmp,"vidi -f %s font8x16",datei);
